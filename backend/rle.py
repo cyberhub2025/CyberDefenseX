@@ -28,7 +28,7 @@ ATTACK_TYPE_MAP = {
     "SQL Injection": "webattack",
     "Brute Force": "authentication",
     "Credential Harvesting": "data exfiltration",
-    "Directory Traversal": "data exfiltration",
+    "Directory Traversal": "directory traversal",
     "Session Hijacking": "social enginnering",
     "Keylogging": "social enginnering",
     "Cookie Stealing": "data exfiltration",

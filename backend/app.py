@@ -870,7 +870,7 @@ def build_overview_payload(alerts: List[Dict[str, str]]) -> Dict[str, Any]:
     attack_name_counter = Counter(a.get("name") or "Unknown" for a in parsed_rows)
     attack_types_data = [
         {"type": threat_name, "count": count}
-        for threat_name, count in attack_name_counter.most_common(8)
+        for threat_name, count in attack_name_counter.most_common(10)
     ]
 
     threat_activity: List[Dict[str, int]] = []
@@ -1751,6 +1751,8 @@ ATTACK_TYPE_COLORS = [
     "#a78bfa",  # lavender
     "#00d4ff",  # cyan alt
     "#ef4444",  # red
+    "#ec4899",  # pink
+    "#06b6d4",  # cyan
 ]
 
 
@@ -1770,7 +1772,7 @@ async def api_vuln_charts():
     # --- Attack frequency (bar chart) ---
     type_counter = Counter(a.get("type") or "Unknown" for a in alerts)
     attack_frequency = []
-    for idx, (attack_type, count) in enumerate(type_counter.most_common(8)):
+    for idx, (attack_type, count) in enumerate(type_counter.most_common(10)):
         color = ATTACK_TYPE_COLORS[idx % len(ATTACK_TYPE_COLORS)]
         attack_frequency.append({"type": attack_type, "count": count, "color": color})
 

@@ -599,11 +599,11 @@ const Overview = () => {
             <h3 className="card-title">Attack Names</h3>
           </div>
           <div className="chart-container">
-            <ResponsiveContainer width="100%" height={250}>
+            <ResponsiveContainer width="100%" height={320}>
               <BarChart data={attackTypesData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#2a2a5a" />
                 <XAxis type="number" stroke="#6a6a8a" />
-                <YAxis dataKey="type" type="category" stroke="#6a6a8a" width={80} tick={{ fontSize: 11 }} interval={0} />
+                <YAxis dataKey="type" type="category" stroke="#6a6a8a" width={120} tick={{ fontSize: 10 }} interval={0} />
                 <Tooltip
                   contentStyle={{
                     background: '#1a1a3a',
@@ -621,7 +621,7 @@ const Overview = () => {
                   animationEasing="ease-out"
                 >
                   {attackTypesData.map((entry, index) => {
-                    const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899', '#06b6d4'];
+                    const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899', '#06b6d4', '#f43f5e', '#84cc16', '#a855f7'];
                     return <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />;
                   })}
                 </Bar>

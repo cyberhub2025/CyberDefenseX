@@ -372,7 +372,7 @@ export default function Landing() {
                       <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-[10px] text-slate-400">Primary</span>
                     </div>
                     <ul className="space-y-1 pl-6 text-xs">
-                      {[{ l: "Header", d: "sky", a: true }, { l: "Hero", d: "purple" }, { l: "Features", d: "emerald" }, { l: "Pricing", d: "amber" }, { l: "Testimonials", d: "pink" }].map(({ l, d, a }) => (
+                      {[{ l: "Overview", d: "sky", a: true }, { l: "Threats", d: "purple" }, { l: "Vulnerabilities", d: "emerald" }, { l: "Reports", d: "amber" }, { l: "Blockchain", d: "pink" }].map(({ l, d, a }) => (
                         <li key={l} className={`flex items-center gap-2 rounded-md px-2 py-1 ${a ? "bg-sky-500/10" : "hover:bg-white/5"}`}><span className={`h-2 w-2 rounded-full bg-${d}-400`} />{l}</li>
                       ))}
                     </ul>
@@ -406,7 +406,7 @@ export default function Landing() {
                 </div>
                 <div className="sm:p-6 pt-4 pr-4 pb-4 pl-4">
                   <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/5 ring-1 ring-white/10">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/9fb3eba2-d3b1-4a3c-9feb-29a0b47b70c6_1600w.jpg" className="h-[360px] w-full object-cover sm:h-[460px]" alt="" />
+                    <img src="/cyberdefenseX_canvas.png" className="h-[360px] w-full object-cover sm:h-[460px]" alt="" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
                     <div className="absolute bottom-6 left-6 right-6">
                       <div className="max-w-xl rounded-xl border border-white/10 bg-black/40 p-4 backdrop-blur">
@@ -427,9 +427,9 @@ export default function Landing() {
                   </div>
                   <div className="pointer-events-none absolute -bottom-6 right-4 hidden w-64 rounded-xl border border-white/10 bg-white/5 p-2 backdrop-blur lg:block">
                     <div className="rounded-lg border border-white/10 bg-black/50 p-2">
-                      <div className="aspect-[9/16] overflow-hidden rounded-md">
+                      {/*<div className="aspect-[9/16] overflow-hidden rounded-md">
                         <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/e080ec8d-304b-41cc-a8e7-c2b6efc8ab07_800w.jpg" className="h-full w-full object-cover" alt="" />
-                      </div>
+                      </div>*/}
                       <div className="mt-2 flex items-center justify-between text-[10px] text-slate-400">
                         <span className="inline-flex items-center gap-1">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg>
