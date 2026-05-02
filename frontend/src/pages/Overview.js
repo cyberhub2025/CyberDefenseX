@@ -9,10 +9,7 @@ import {
   TrendingDown,
   Activity,
   Globe,
-  Clock,
   Eye,
-  ChevronDown,
-  Check,
   Bell,
   Search,
   X,
@@ -181,10 +178,7 @@ const Overview = () => {
   const threatOrigins = overviewData.threatOrigins;
   const maxOriginCount = Math.max(...threatOrigins.map((item) => item.count || 0), 1);
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [selectedRange, setSelectedRange] = useState('24h');
-  const dropdownRef = useRef(null);
   const notificationRef = useRef(null);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -240,13 +234,7 @@ const Overview = () => {
     setSearchQuery('');
   };
 
-  const timeRanges = [
-    { label: 'Real-time', value: 'real-time' },
-    { label: 'Last 1 hour', value: '1h' },
-    { label: 'Last 24 hours', value: '24h' },
-    { label: 'Last 7 days', value: '7d' },
-    { label: 'Custom range', value: 'custom' }
-  ];
+
 
   // SSE-driven refresh: refetch when backend pushes an event
   useEventStream('alerts.changed', () => fetchOverview());
@@ -264,9 +252,6 @@ const Overview = () => {
     }, 60000);
 
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
       if (notificationRef.current && !notificationRef.current.contains(event.target)) {
         setIsNotificationOpen(false);
       }
@@ -291,15 +276,6 @@ const Overview = () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
-
-  const handleRangeSelect = (range) => {
-    setSelectedRange(range.value);
-    setIsDropdownOpen(false);
-  };
-
-  const getSelectedRangeLabel = () => {
-    return timeRanges.find(r => r.value === selectedRange)?.label || 'Last 24 Hours';
-  };
 
   const unreadCount = notifications.length;
 
@@ -347,10 +323,6 @@ const Overview = () => {
         </div>
 
         <div className="header-actions">
-          <div className="status-badge">
-            <span className="status-dot green"></span>
-            Production
-          </div>
 
           <div className="notification-container" ref={notificationRef}>
             <button
@@ -426,30 +398,9 @@ const Overview = () => {
             )}
           </div>
 
-          <div className="time-range-dropdown" ref={dropdownRef}>
-            <button
-              className={`btn btn-secondary dropdown-trigger ${isDropdownOpen ? 'active' : ''}`}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            >
-              <Clock size={16} />
-              {getSelectedRangeLabel()}
-              <ChevronDown size={14} className={`chevron-icon ${isDropdownOpen ? 'rotate' : ''}`} />
-            </button>
-
-            {isDropdownOpen && (
-              <div className="dropdown-menu">
-                {timeRanges.map((range) => (
-                  <button
-                    key={range.value}
-                    className={`dropdown-option ${selectedRange === range.value ? 'selected' : ''}`}
-                    onClick={() => handleRangeSelect(range)}
-                  >
-                    <span>{range.label}</span>
-                    {selectedRange === range.value && <Check size={14} />}
-                  </button>
-                ))}
-              </div>
-            )}
+          <div className="status-badge">
+            <span className="status-dot green"></span>
+            Production
           </div>
           <button className="btn btn-primary" onClick={() => navigate('/reports')}>
             <Eye size={16} />
