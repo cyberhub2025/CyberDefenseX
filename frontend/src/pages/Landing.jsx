@@ -406,7 +406,7 @@ export default function Landing() {
                 </div>
                 <div className="sm:p-6 pt-4 pr-4 pb-4 pl-4">
                   <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/5 ring-1 ring-white/10">
-                    <img src="/cyberdefenseX_canvas.png" className="h-[360px] w-full object-cover sm:h-[460px]" alt="" />
+                    <img src={process.env.PUBLIC_URL + "/cyberdefenseX_canvas.png"} className="h-[360px] w-full object-cover sm:h-[460px]" alt="" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
                     <div className="absolute bottom-6 left-6 right-6">
                       <div className="max-w-xl rounded-xl border border-white/10 bg-black/40 p-4 backdrop-blur">
