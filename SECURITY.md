@@ -183,18 +183,18 @@ CyberDefenseX Ultra is built with a **defense-in-depth** philosophy — multiple
 ┌─────────────────────────────────────────────────────────────────┐
 │                        SECURITY LAYERS                          │
 │                                                                 │
-│  ┌─────────────┐   ┌─────────────┐   ┌─────────────────────┐  │
+│  ┌──────────────┐   ┌─────────────┐   ┌──────────────────────┐  │
 │  │   React SPA  │   │  FastAPI    │   │  Blockchain Layer    │  │
 │  │  (Frontend)  │   │  Backend    │   │  (Tamper Detection)  │  │
-│  │             │   │             │   │                     │  │
+│  │              │   │             │   │                      │  │
 │  │ • CSP        │   │ • CORS      │   │ • SHA-256 Hash Chain │  │
 │  │ • OAuth2     │   │ • JWT/Sess  │   │ • Merkle Trees       │  │
 │  │ • HTTPS Only │   │ • RLE Guard │   │ • Leader-Worker Rep  │  │
 │  │ • No .env    │   │ • Rate Lim  │   │ • Integrity Alerts   │  │
-│  │   exposure   │   │ • Input Val │   │                     │  │
-│  └──────┬──────┘   └──────┬──────┘   └──────────┬──────────┘  │
-│         │                 │                       │             │
-│         └─────────────────┴───────────────────────┘             │
+│  │   exposure   │   │ • Input Val │   │                      │  │
+│  └──────┬───────┘   └──────┬──────┘   └──────────┬───────────┘  │
+│         │                  │                     │              │
+│         └──────────────────┴─────────────────────┘              │
 │                           │                                     │
 │                  ┌────────▼────────┐                            │
 │                  │  SQLite Storage │                            │
@@ -268,18 +268,18 @@ One of CyberDefenseX Ultra's most distinctive security features is its **built-i
 Alert Detected → RLE Engine → excel2.xlsx → Leader Node
                                                   │
                               ┌───────────────────▼──────────────────────┐
-                              │           Block Construction              │
-                              │   • Previous block hash (SHA-256)         │
-                              │   • Alert data payload                    │
-                              │   • Merkle root of all transactions       │
-                              │   • Timestamp + Nonce                     │
+                              │           Block Construction             │
+                              │   • Previous block hash (SHA-256)        │
+                              │   • Alert data payload                   │
+                              │   • Merkle root of all transactions      │
+                              │   • Timestamp + Nonce                    │
                               └───────────────────┬──────────────────────┘
                                                   │
                               ┌───────────────────▼──────────────────────┐
-                              │           Worker Replication              │
-                              │   • HTTP broadcast to worker nodes        │
-                              │   • Workers verify chain hash continuity  │
-                              │   • Mismatch → Integrity Alert fired      │
+                              │           Worker Replication             │
+                              │   • HTTP broadcast to worker nodes       │
+                              │   • Workers verify chain hash continuity │
+                              │   • Mismatch → Integrity Alert fired     │
                               └──────────────────────────────────────────┘
 ```
 
@@ -563,8 +563,8 @@ To qualify for safe harbor, researchers must:
 ```
 ████████████████████████████████████████████████████████████████████
 █                                                                  █
-█        S E C U R I T Y   I S   N O T   A   F E A T U R E       █
-█                  I T ' S   A   F O U N D A T I O N              █
+█        S E C U R I T Y   I S   N O T   A   F E A T U R E         █
+█                  I T ' S   A   F O U N D A T I O N               █
 █                                                                  █
 ████████████████████████████████████████████████████████████████████
 ```
