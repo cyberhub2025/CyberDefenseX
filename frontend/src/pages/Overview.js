@@ -9,10 +9,7 @@ import {
   TrendingDown,
   Activity,
   Globe,
-  Clock,
   Eye,
-  ChevronDown,
-  Check,
   Bell,
   Search,
   X,
@@ -181,10 +178,7 @@ const Overview = () => {
   const threatOrigins = overviewData.threatOrigins;
   const maxOriginCount = Math.max(...threatOrigins.map((item) => item.count || 0), 1);
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [selectedRange, setSelectedRange] = useState('24h');
-  const dropdownRef = useRef(null);
   const notificationRef = useRef(null);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -240,13 +234,7 @@ const Overview = () => {
     setSearchQuery('');
   };
 
-  const timeRanges = [
-    { label: 'Real-time', value: 'real-time' },
-    { label: 'Last 1 hour', value: '1h' },
-    { label: 'Last 24 hours', value: '24h' },
-    { label: 'Last 7 days', value: '7d' },
-    { label: 'Custom range', value: 'custom' }
-  ];
+
 
   // SSE-driven refresh: refetch when backend pushes an event
   useEventStream('alerts.changed', () => fetchOverview());
@@ -264,9 +252,6 @@ const Overview = () => {
     }, 60000);
 
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
       if (notificationRef.current && !notificationRef.current.contains(event.target)) {
         setIsNotificationOpen(false);
       }
@@ -291,15 +276,6 @@ const Overview = () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
-
-  const handleRangeSelect = (range) => {
-    setSelectedRange(range.value);
-    setIsDropdownOpen(false);
-  };
-
-  const getSelectedRangeLabel = () => {
-    return timeRanges.find(r => r.value === selectedRange)?.label || 'Last 24 Hours';
-  };
 
   const unreadCount = notifications.length;
 
@@ -347,10 +323,6 @@ const Overview = () => {
         </div>
 
         <div className="header-actions">
-          <div className="status-badge">
-            <span className="status-dot green"></span>
-            Production
-          </div>
 
           <div className="notification-container" ref={notificationRef}>
             <button
@@ -426,30 +398,9 @@ const Overview = () => {
             )}
           </div>
 
-          <div className="time-range-dropdown" ref={dropdownRef}>
-            <button
-              className={`btn btn-secondary dropdown-trigger ${isDropdownOpen ? 'active' : ''}`}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            >
-              <Clock size={16} />
-              {getSelectedRangeLabel()}
-              <ChevronDown size={14} className={`chevron-icon ${isDropdownOpen ? 'rotate' : ''}`} />
-            </button>
-
-            {isDropdownOpen && (
-              <div className="dropdown-menu">
-                {timeRanges.map((range) => (
-                  <button
-                    key={range.value}
-                    className={`dropdown-option ${selectedRange === range.value ? 'selected' : ''}`}
-                    onClick={() => handleRangeSelect(range)}
-                  >
-                    <span>{range.label}</span>
-                    {selectedRange === range.value && <Check size={14} />}
-                  </button>
-                ))}
-              </div>
-            )}
+          <div className="status-badge">
+            <span className="status-dot green"></span>
+            Production
           </div>
           <button className="btn btn-primary" onClick={() => navigate('/reports')}>
             <Eye size={16} />
@@ -599,11 +550,11 @@ const Overview = () => {
             <h3 className="card-title">Attack Names</h3>
           </div>
           <div className="chart-container">
-            <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={attackTypesData} layout="vertical">
+            <ResponsiveContainer width="100%" height={320}>
+              <BarChart data={attackTypesData} layout="vertical" margin={{ top: 0, right: 10, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#2a2a5a" />
                 <XAxis type="number" stroke="#6a6a8a" />
-                <YAxis dataKey="type" type="category" stroke="#6a6a8a" width={80} tick={{ fontSize: 11 }} interval={0} />
+                <YAxis dataKey="type" type="category" stroke="#6a6a8a" width={90} tick={{ fontSize: 10 }} interval={0} />
                 <Tooltip
                   contentStyle={{
                     background: '#1a1a3a',
@@ -621,7 +572,7 @@ const Overview = () => {
                   animationEasing="ease-out"
                 >
                   {attackTypesData.map((entry, index) => {
-                    const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899', '#06b6d4'];
+                    const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899', '#06b6d4', '#f43f5e', '#84cc16', '#a855f7'];
                     return <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />;
                   })}
                 </Bar>
@@ -644,7 +595,7 @@ const Overview = () => {
                   contentStyle={{
                     background: '#1a1a3a',
                     border: '1px solid #2a2a5a',
-                    borderRadius: '8px'
+                    borderRadius: '10px'
                   }}
                   itemStyle={{ color: '#fff' }}
                   labelStyle={{ color: '#fff' }}

@@ -88,6 +88,7 @@ const Threats = () => {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const filterRef = useRef(null);
   const sortRef = useRef(null);
+  const panelRef = useRef(null);
 
   const sortOptions = [
     { value: 'newest', label: 'Newest First' },
@@ -495,7 +496,16 @@ const Threats = () => {
                   </td>
                   <td className="threat-actions">
                     <div className="actions-wrapper">
-                      <button className="action-btn" title="View Details" onClick={() => setSelectedThreatId(threat.id)}>
+                      <button
+                        className="action-btn"
+                        title="View Details"
+                        onClick={() => {
+                          setSelectedThreatId(threat.id);
+                          setTimeout(() => {
+                            panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }, 50);
+                        }}
+                      >
                         <Eye size={16} />
                       </button>
                       <button className="action-btn" title="Block" onClick={() => handleBlock(threat)}>
@@ -547,7 +557,7 @@ const Threats = () => {
         )}
       </div>
 
-      <div className={`threat-details-panel card ${selectedThreat ? 'active' : ''}`}>
+      <div ref={panelRef} className={`threat-details-panel card ${selectedThreat ? 'active' : ''}`}>
         <div className="panel-header">
           <h3>Threat Analysis Panel</h3>
           {selectedThreat ? (
