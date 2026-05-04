@@ -1,20 +1,7 @@
 import React from "react";
 import "./GetStarted.css";
 
-const envTemplate = `# CyberDefenseX backend environment
-SECRET_KEY=your_secret_key_here
-FRONTEND_URL=https://cyberdefensex.dpdns.org,http://localhost:3000
-BACKEND_URL=http://localhost:8000
 
-# OAuth
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-GITHUB_CLIENT_ID=
-GITHUB_CLIENT_SECRET=
-
-# AI Assistant
-NVIDIA_API_KEY=
-`;
 
 const steps = [
   {
@@ -38,8 +25,8 @@ const steps = [
     body: "Extract the archive to a folder you can run locally.",
   },
   {
-    title: "Add your .env",
-    body: "Create backend/.env and paste the template shown below.",
+    title: "Configure settings",
+    body: "Use the Settings page in the dashboard to add your OAuth and API keys.",
   },
   {
     title: "Run app.py",
@@ -83,17 +70,7 @@ const resetChecklist = [
 ];
 
 export default function GetStarted() {
-  const downloadEnvTemplate = () => {
-    const blob = new Blob([envTemplate], { type: "text/plain;charset=utf-8" });
-    const url = window.URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = ".env";
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    window.URL.revokeObjectURL(url);
-  };
+
 
   return (
     <div className="gs-page">
@@ -125,9 +102,7 @@ export default function GetStarted() {
                 </svg>
                 Download backend
               </a>
-              <button className="gs-btn gs-outline" type="button" onClick={downloadEnvTemplate}>
-                Download .env template
-              </button>
+
             </div>
             <div className="gs-pill-row">
               <span>FastAPI</span>
@@ -180,19 +155,29 @@ export default function GetStarted() {
           </div>
         </section>
 
-        <section className="gs-section gs-env">
+        <section className="gs-section gs-oauth">
           <div className="gs-section-head">
-            <h2>Backend .env template</h2>
-            <p>Paste this into backend/.env before running app.py.</p>
+            <h2>OAuth Configuration</h2>
+            <p>To enable social login, configure your OAuth providers with these authorized URIs. Once generated, add your Client IDs and Secrets in the platform's Settings page.</p>
           </div>
-          <div className="gs-env-toolbar">
-            <button className="gs-btn gs-primary" type="button" onClick={downloadEnvTemplate}>
-              Download .env template
-            </button>
+          <div className="gs-split">
+            <div className="gs-card">
+              <h3>Google OAuth</h3>
+              <p>Create credentials in the Google Cloud Console (APIs & Services).</p>
+              <ul className="gs-reset-list" style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+                <li><strong>Authorized JavaScript origins:</strong><br/> <code>http://localhost:3000</code><br/> <code>https://cyberdefensex.dpdns.org</code></li>
+                <li style={{ marginTop: '0.5rem' }}><strong>Authorized redirect URIs:</strong><br/> <code>http://localhost:8000/auth/google/callback</code></li>
+              </ul>
+            </div>
+            <div className="gs-card">
+              <h3>GitHub OAuth</h3>
+              <p>Create an OAuth App in your GitHub Developer Settings.</p>
+              <ul className="gs-reset-list" style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+                <li><strong>Homepage URL:</strong><br/> <code>https://cyberdefensex.dpdns.org</code></li>
+                <li style={{ marginTop: '0.5rem' }}><strong>Authorization callback URL:</strong><br/> <code>http://localhost:8000/auth/github/callback</code></li>
+              </ul>
+            </div>
           </div>
-          <pre className="gs-code-block">
-            <code>{envTemplate}</code>
-          </pre>
         </section>
 
         <section className="gs-section gs-run">

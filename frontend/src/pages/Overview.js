@@ -289,9 +289,9 @@ const Overview = () => {
     { title: 'API Keys', path: '/settings', hash: '#api', type: 'Section', keywords: ['tokens', 'developer'] }
   ];
 
-  const filteredItems = searchableItems.filter(item => 
+  const filteredItems = searchableItems.filter(item =>
     searchQuery && (
-      item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.keywords.some(k => k.toLowerCase().includes(searchQuery.toLowerCase()))
     )
   );
@@ -363,419 +363,419 @@ const Overview = () => {
 
   return (
     <>
-    <div className="overview">
-      <div className="page-header">
-        <div className="header-content">
-          <h1 className="page-title">Security Overview</h1>
-          <p className="page-subtitle">Real-time security monitoring and threat analysis</p>
-        </div>
-        <div className="header-search" ref={searchContainerRef}>
-          <Search size={18} className="search-icon" />
-          <input 
-            type="text" 
-            ref={searchRef}
-            placeholder="Search alerts, incidents, logs..." 
-            className="search-input" 
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setIsSearchOpen(true);
-            }}
-            onFocus={() => { if (searchQuery) setIsSearchOpen(true); }}
-          />
-          <span className="search-shortcut">⌘K</span>
-          
-          {isSearchOpen && searchQuery && (
-            <div className="search-dropdown-menu">
-              {filteredItems.length > 0 ? (
-                filteredItems.map((item, idx) => (
-                  <div 
-                    key={idx} 
-                    className="search-dropdown-item"
-                    onClick={() => handleSearchSelect(item)}
-                  >
-                    <span className="search-item-title">{item.title}</span>
-                    <span className="search-item-type">{item.type}</span>
-                  </div>
-                ))
-              ) : (
-                <div className="search-dropdown-empty">No results found for "{searchQuery}"</div>
-              )}
-            </div>
-          )}
-        </div>
+      <div className="overview">
+        <div className="page-header">
+          <div className="header-content">
+            <h1 className="page-title">Security Overview</h1>
+            <p className="page-subtitle">Real-time security monitoring and threat analysis</p>
+          </div>
+          <div className="header-search" ref={searchContainerRef}>
+            <Search size={18} className="search-icon" />
+            <input
+              type="text"
+              ref={searchRef}
+              placeholder="Search alerts, incidents, logs..."
+              className="search-input"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setIsSearchOpen(true);
+              }}
+              onFocus={() => { if (searchQuery) setIsSearchOpen(true); }}
+            />
+            <span className="search-shortcut">⌘K</span>
 
-        <div className="header-actions">
-
-          <div className="notification-container" ref={notificationRef}>
-            <button
-              className={`notification-trigger ${isNotificationOpen ? 'active' : ''}`}
-              onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-            >
-              <Bell size={20} />
-              {unreadCount > 0 && (
-                <span className="notification-badge">
-                  {unreadCount > 9 ? '9+' : unreadCount}
-                </span>
-              )}
-            </button>
-
-            {isNotificationOpen && (
-              <div className="notification-dropdown-menu">
-                <div className="dropdown-header">
-                  <span>Notifications</span>
-                  {notifications.length > 0 && (
-                    <button
-                      className="clear-all-btn"
-                      onClick={clearAllNotifications}
-                      title="Clear all notifications"
-                    >
-                      <Trash2 size={14} />
-                      Clear all
-                    </button>
-                  )}
-                </div>
-                <div className="notification-list">
-                  {notificationsLoading && notifications.length === 0 && (
-                    <div className="notification-empty">Loading...</div>
-                  )}
-                  {!notificationsLoading && notifications.length === 0 && (
-                    <div className="notification-empty">
-                      <Bell size={28} className="notification-empty-icon" />
-                      <span>No notifications</span>
-                      <span className="notification-empty-sub">
-                        You're all caught up!
-                      </span>
-                    </div>
-                  )}
-                  {notifications.map((notif) => (
+            {isSearchOpen && searchQuery && (
+              <div className="search-dropdown-menu">
+                {filteredItems.length > 0 ? (
+                  filteredItems.map((item, idx) => (
                     <div
-                      key={notif.id}
-                      className={`notification-item ${notif.severity}`}
+                      key={idx}
+                      className="search-dropdown-item"
+                      onClick={() => handleSearchSelect(item)}
                     >
-                      <div className="notification-item-header">
-                        <span className={`severity-dot ${notif.severity}`}></span>
-                        <span className="notification-message">{notif.message}</span>
-                        <button
-                          className="notification-dismiss"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            dismissNotification(notif.id);
-                          }}
-                          title="Dismiss"
-                        >
-                          <X size={14} />
-                        </button>
-                      </div>
-                      <div className="notification-footer">
-                        <span className="notification-source">{notif.source}</span>
-                        <span className="notification-time">{notif.time}</span>
-                      </div>
+                      <span className="search-item-title">{item.title}</span>
+                      <span className="search-item-type">{item.type}</span>
                     </div>
-                  ))}
-                </div>
-                <button className="view-all-link" onClick={() => setIsNotificationOpen(false)}>
-                  Close
-                </button>
+                  ))
+                ) : (
+                  <div className="search-dropdown-empty">No results found for "{searchQuery}"</div>
+                )}
               </div>
             )}
           </div>
 
-          <div className="status-badge">
-            <span className="status-dot green"></span>
-            Production
-          </div>
-          <button
-            className="btn btn-danger-outline"
-            onClick={() => {
-              setIsResetModalOpen(true);
-              setResetError('');
-              setResetPassword('');
-              setResetSuccess(false);
-              setShowResetPassword(false);
-            }}
-          >
-            <RotateCcw size={16} />
-            Reset All
-          </button>
-        </div>
-      </div>
+          <div className="header-actions">
 
-      <div className="stats-grid">
-        {stats.map((stat, index) => (
-          <div
-            key={index}
-            className={`stat-card stat-${stat.color}`}
-            onClick={() => stat.path && navigate(stat.path)}
-            style={{ cursor: stat.path ? 'pointer' : 'default' }}
-          >
-            <div className="stat-icon">
-              <stat.icon size={24} />
-            </div>
-            <div className="stat-content">
-              <span className="stat-title">{stat.title}</span>
-              <div className="stat-value-row">
-                <span className="stat-value">{stat.value}</span>
-                {stat.trend && (
-                  <span className={`stat-change ${stat.trend}`}>
-                    {stat.trend === 'up' ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-                    {stat.change}
+            <div className="notification-container" ref={notificationRef}>
+              <button
+                className={`notification-trigger ${isNotificationOpen ? 'active' : ''}`}
+                onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+              >
+                <Bell size={20} />
+                {unreadCount > 0 && (
+                  <span className="notification-badge">
+                    {unreadCount > 9 ? '9+' : unreadCount}
                   </span>
                 )}
-              </div>
-              {stat.sub && <span className="stat-sub">{stat.sub}</span>}
-            </div>
-          </div>
-        ))}
-      </div>
+              </button>
 
-      {isLoading && <div className="card">Loading overview data...</div>}
-      {!isLoading && errorMessage && <div className="card">{errorMessage}</div>}
-
-      <div className="charts-row">
-        <div className="card chart-card large" id="threat-activity">
-          <div className="card-header">
-            <h3 className="card-title">Threat Activity</h3>
-            <div className="chart-legend">
-              <span className="legend-item">
-                <span className="legend-dot cyan"></span>
-                Detected
-              </span>
-              <span className="legend-item">
-                <span className="legend-dot green"></span>
-                Blocked
-              </span>
+              {isNotificationOpen && (
+                <div className="notification-dropdown-menu">
+                  <div className="dropdown-header">
+                    <span>Notifications</span>
+                    {notifications.length > 0 && (
+                      <button
+                        className="clear-all-btn"
+                        onClick={clearAllNotifications}
+                        title="Clear all notifications"
+                      >
+                        <Trash2 size={14} />
+                        Clear all
+                      </button>
+                    )}
+                  </div>
+                  <div className="notification-list">
+                    {notificationsLoading && notifications.length === 0 && (
+                      <div className="notification-empty">Loading...</div>
+                    )}
+                    {!notificationsLoading && notifications.length === 0 && (
+                      <div className="notification-empty">
+                        <Bell size={28} className="notification-empty-icon" />
+                        <span>No notifications</span>
+                        <span className="notification-empty-sub">
+                          You're all caught up!
+                        </span>
+                      </div>
+                    )}
+                    {notifications.map((notif) => (
+                      <div
+                        key={notif.id}
+                        className={`notification-item ${notif.severity}`}
+                      >
+                        <div className="notification-item-header">
+                          <span className={`severity-dot ${notif.severity}`}></span>
+                          <span className="notification-message">{notif.message}</span>
+                          <button
+                            className="notification-dismiss"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              dismissNotification(notif.id);
+                            }}
+                            title="Dismiss"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                        <div className="notification-footer">
+                          <span className="notification-source">{notif.source}</span>
+                          <span className="notification-time">{notif.time}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <button className="view-all-link" onClick={() => setIsNotificationOpen(false)}>
+                    Close
+                  </button>
+                </div>
+              )}
             </div>
-          </div>
-          <div className="chart-container">
-            <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={threatData}>
-                <defs>
-                  <linearGradient id="threatGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#00d4ff" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#00d4ff" stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="blockedGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2a2a5a" />
-                <XAxis dataKey="name" stroke="#6a6a8a" />
-                <YAxis stroke="#6a6a8a" />
-                <Tooltip
-                  contentStyle={{
-                    background: '#1a1a3a',
-                    border: '1px solid #2a2a5a',
-                    borderRadius: '8px'
-                  }}
-                  itemStyle={{ color: '#fff' }}
-                  labelStyle={{ color: '#fff' }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="threats"
-                  stroke="#00d4ff"
-                  fill="url(#threatGradient)"
-                  strokeWidth={2}
-                  isAnimationActive={true}
-                  animationDuration={900}
-                  animationEasing="ease-out"
-                />
-                <Area
-                  type="monotone"
-                  dataKey="blocked"
-                  stroke="#10b981"
-                  fill="url(#blockedGradient)"
-                  strokeWidth={2}
-                  isAnimationActive={true}
-                  animationDuration={900}
-                  animationEasing="ease-out"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
+
+            <div className="status-badge">
+              <span className="status-dot green"></span>
+              Production
+            </div>
+            <button
+              className="btn btn-danger-outline"
+              onClick={() => {
+                setIsResetModalOpen(true);
+                setResetError('');
+                setResetPassword('');
+                setResetSuccess(false);
+                setShowResetPassword(false);
+              }}
+            >
+              <RotateCcw size={16} />
+              Reset All
+            </button>
           </div>
         </div>
 
-        <div className="card chart-card" id="severity-distribution">
-          <div className="card-header">
-            <h3 className="card-title">Severity Distribution</h3>
+        <div className="stats-grid">
+          {stats.map((stat, index) => (
+            <div
+              key={index}
+              className={`stat-card stat-${stat.color}`}
+              onClick={() => stat.path && navigate(stat.path)}
+              style={{ cursor: stat.path ? 'pointer' : 'default' }}
+            >
+              <div className="stat-icon">
+                <stat.icon size={24} />
+              </div>
+              <div className="stat-content">
+                <span className="stat-title">{stat.title}</span>
+                <div className="stat-value-row">
+                  <span className="stat-value">{stat.value}</span>
+                  {stat.trend && (
+                    <span className={`stat-change ${stat.trend}`}>
+                      {stat.trend === 'up' ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                      {stat.change}
+                    </span>
+                  )}
+                </div>
+                {stat.sub && <span className="stat-sub">{stat.sub}</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {isLoading && <div className="card">Loading overview data...</div>}
+        {!isLoading && errorMessage && <div className="card">{errorMessage}</div>}
+
+        <div className="charts-row">
+          <div className="card chart-card large" id="threat-activity">
+            <div className="card-header">
+              <h3 className="card-title">Threat Activity</h3>
+              <div className="chart-legend">
+                <span className="legend-item">
+                  <span className="legend-dot cyan"></span>
+                  Detected
+                </span>
+                <span className="legend-item">
+                  <span className="legend-dot green"></span>
+                  Blocked
+                </span>
+              </div>
+            </div>
+            <div className="chart-container">
+              <ResponsiveContainer width="100%" height={300}>
+                <AreaChart data={threatData}>
+                  <defs>
+                    <linearGradient id="threatGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#00d4ff" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#00d4ff" stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient id="blockedGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2a5a" />
+                  <XAxis dataKey="name" stroke="#6a6a8a" />
+                  <YAxis stroke="#6a6a8a" />
+                  <Tooltip
+                    contentStyle={{
+                      background: '#1a1a3a',
+                      border: '1px solid #2a2a5a',
+                      borderRadius: '8px'
+                    }}
+                    itemStyle={{ color: '#fff' }}
+                    labelStyle={{ color: '#fff' }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="threats"
+                    stroke="#00d4ff"
+                    fill="url(#threatGradient)"
+                    strokeWidth={2}
+                    isAnimationActive={true}
+                    animationDuration={900}
+                    animationEasing="ease-out"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="blocked"
+                    stroke="#10b981"
+                    fill="url(#blockedGradient)"
+                    strokeWidth={2}
+                    isAnimationActive={true}
+                    animationDuration={900}
+                    animationEasing="ease-out"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
           </div>
-          <div className="chart-container pie-chart">
-            <ResponsiveContainer width="100%" height={250}>
-              <PieChart>
-                <Pie
-                  data={severityData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={90}
-                  paddingAngle={5}
-                  dataKey="value"
-                  isAnimationActive={true}
-                  animationDuration={900}
-                  animationEasing="ease-out"
-                >
-                  {severityData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    background: '#1a1a3a',
-                    border: '1px solid #2a2a5a',
-                    borderRadius: '8px'
-                  }}
-                  itemStyle={{ color: '#fff' }}
-                  labelStyle={{ color: '#fff' }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="pie-legend">
-              {severityData.map((item, index) => (
-                <div key={index} className="pie-legend-item">
-                  <span className="pie-dot" style={{ background: item.color }}></span>
-                  <span className="pie-label">{item.name}</span>
-                  <span className="pie-value">{item.value}</span>
+
+          <div className="card chart-card" id="severity-distribution">
+            <div className="card-header">
+              <h3 className="card-title">Severity Distribution</h3>
+            </div>
+            <div className="chart-container pie-chart">
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie
+                    data={severityData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={90}
+                    paddingAngle={5}
+                    dataKey="value"
+                    isAnimationActive={true}
+                    animationDuration={900}
+                    animationEasing="ease-out"
+                  >
+                    {severityData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    contentStyle={{
+                      background: '#1a1a3a',
+                      border: '1px solid #2a2a5a',
+                      borderRadius: '8px'
+                    }}
+                    itemStyle={{ color: '#fff' }}
+                    labelStyle={{ color: '#fff' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="pie-legend">
+                {severityData.map((item, index) => (
+                  <div key={index} className="pie-legend-item">
+                    <span className="pie-dot" style={{ background: item.color }}></span>
+                    <span className="pie-label">{item.name}</span>
+                    <span className="pie-value">{item.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="charts-row">
+          <div className="card chart-card" id="attack-names">
+            <div className="card-header">
+              <h3 className="card-title">Attack Names</h3>
+            </div>
+            <div className="chart-container">
+              <ResponsiveContainer width="100%" height={320}>
+                <BarChart data={attackTypesData} layout="vertical" margin={{ top: 0, right: 10, left: -20, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2a5a" />
+                  <XAxis type="number" stroke="#6a6a8a" />
+                  <YAxis dataKey="type" type="category" stroke="#6a6a8a" width={90} tick={{ fontSize: 10 }} interval={0} />
+                  <Tooltip
+                    contentStyle={{
+                      background: '#1a1a3a',
+                      border: '1px solid #2a2a5a',
+                      borderRadius: '8px'
+                    }}
+                    itemStyle={{ color: '#fff' }}
+                    labelStyle={{ color: '#fff' }}
+                  />
+                  <Bar
+                    dataKey="count"
+                    radius={[0, 4, 4, 0]}
+                    isAnimationActive={true}
+                    animationDuration={900}
+                    animationEasing="ease-out"
+                  >
+                    {attackTypesData.map((entry, index) => {
+                      const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899', '#06b6d4', '#f43f5e', '#84cc16', '#a855f7'];
+                      return <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />;
+                    })}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className="card chart-card" id="network-traffic">
+            <div className="card-header">
+              <h3 className="card-title">Network Traffic</h3>
+            </div>
+            <div className="chart-container">
+              <ResponsiveContainer width="100%" height={320}>
+                <LineChart data={networkData} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2a5a" />
+                  <XAxis dataKey="time" stroke="#6a6a8a" />
+                  <YAxis stroke="#6a6a8a" />
+                  <Tooltip
+                    contentStyle={{
+                      background: '#1a1a3a',
+                      border: '1px solid #2a2a5a',
+                      borderRadius: '10px'
+                    }}
+                    itemStyle={{ color: '#fff' }}
+                    labelStyle={{ color: '#fff' }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="inbound"
+                    stroke="#00d4ff"
+                    strokeWidth={2}
+                    dot={false}
+                    isAnimationActive={true}
+                    animationDuration={900}
+                    animationEasing="ease-out"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="outbound"
+                    stroke="#f59e0b"
+                    strokeWidth={2}
+                    dot={false}
+                    isAnimationActive={true}
+                    animationDuration={900}
+                    animationEasing="ease-out"
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+
+        <div className="bottom-row">
+          <div className="card alerts-card" id="recent-alerts">
+            <div className="card-header">
+              <h3 className="card-title">Recent Alerts</h3>
+              <button className="view-all-btn">View All</button>
+            </div>
+            <div className="alerts-list">
+              {recentAlerts.map((alert) => (
+                <div key={alert.id} className={`alert-item alert-${alert.type}`}>
+                  <div className="alert-indicator"></div>
+                  <div className="alert-content">
+                    <p className="alert-message">{alert.message}</p>
+                    <div className="alert-meta">
+                      <span className="alert-source">{alert.source}</span>
+                      <span className="alert-time">{alert.time}</span>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="charts-row">
-        <div className="card chart-card" id="attack-names">
-          <div className="card-header">
-            <h3 className="card-title">Attack Names</h3>
-          </div>
-          <div className="chart-container">
-            <ResponsiveContainer width="100%" height={320}>
-              <BarChart data={attackTypesData} layout="vertical" margin={{ top: 0, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2a2a5a" />
-                <XAxis type="number" stroke="#6a6a8a" />
-                <YAxis dataKey="type" type="category" stroke="#6a6a8a" width={90} tick={{ fontSize: 10 }} interval={0} />
-                <Tooltip
-                  contentStyle={{
-                    background: '#1a1a3a',
-                    border: '1px solid #2a2a5a',
-                    borderRadius: '8px'
-                  }}
-                  itemStyle={{ color: '#fff' }}
-                  labelStyle={{ color: '#fff' }}
-                />
-                <Bar
-                  dataKey="count"
-                  radius={[0, 4, 4, 0]}
-                  isAnimationActive={true}
-                  animationDuration={900}
-                  animationEasing="ease-out"
-                >
-                  {attackTypesData.map((entry, index) => {
-                    const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899', '#06b6d4', '#f43f5e', '#84cc16', '#a855f7'];
-                    return <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />;
-                  })}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="card chart-card" id="network-traffic">
-          <div className="card-header">
-            <h3 className="card-title">Network Traffic</h3>
-          </div>
-          <div className="chart-container">
-            <ResponsiveContainer width="100%" height={320}>
-              <LineChart data={networkData} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2a2a5a" />
-                <XAxis dataKey="time" stroke="#6a6a8a" />
-                <YAxis stroke="#6a6a8a" />
-                <Tooltip
-                  contentStyle={{
-                    background: '#1a1a3a',
-                    border: '1px solid #2a2a5a',
-                    borderRadius: '10px'
-                  }}
-                  itemStyle={{ color: '#fff' }}
-                  labelStyle={{ color: '#fff' }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="inbound"
-                  stroke="#00d4ff"
-                  strokeWidth={2}
-                  dot={false}
-                  isAnimationActive={true}
-                  animationDuration={900}
-                  animationEasing="ease-out"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="outbound"
-                  stroke="#f59e0b"
-                  strokeWidth={2}
-                  dot={false}
-                  isAnimationActive={true}
-                  animationDuration={900}
-                  animationEasing="ease-out"
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
-
-      <div className="bottom-row">
-        <div className="card alerts-card" id="recent-alerts">
-          <div className="card-header">
-            <h3 className="card-title">Recent Alerts</h3>
-            <button className="view-all-btn">View All</button>
-          </div>
-          <div className="alerts-list">
-            {recentAlerts.map((alert) => (
-              <div key={alert.id} className={`alert-item alert-${alert.type}`}>
-                <div className="alert-indicator"></div>
-                <div className="alert-content">
-                  <p className="alert-message">{alert.message}</p>
-                  <div className="alert-meta">
-                    <span className="alert-source">{alert.source}</span>
-                    <span className="alert-time">{alert.time}</span>
+          <div className="card threats-origin-card" id="threat-origins">
+            <div className="card-header">
+              <h3 className="card-title">
+                <Globe size={18} />
+                Threat Origins
+              </h3>
+            </div>
+            <div className="threats-list">
+              {threatOrigins.map((origin, index) => (
+                <div key={index} className="threat-origin-item">
+                  <span className="threat-ip">{origin.ip}</span>
+                  <div className="threat-bar-container">
+                    <div
+                      className="threat-bar"
+                      style={{ width: `${((origin.count || 0) / maxOriginCount) * 100}%` }}
+                    ></div>
                   </div>
+                  <span className="threat-count">{origin.count}</span>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="card threats-origin-card" id="threat-origins">
-          <div className="card-header">
-            <h3 className="card-title">
-              <Globe size={18} />
-              Threat Origins
-            </h3>
-          </div>
-          <div className="threats-list">
-            {threatOrigins.map((origin, index) => (
-              <div key={index} className="threat-origin-item">
-                <span className="threat-ip">{origin.ip}</span>
-                <div className="threat-bar-container">
-                  <div
-                    className="threat-bar"
-                    style={{ width: `${((origin.count || 0) / maxOriginCount) * 100}%` }}
-                  ></div>
-                </div>
-                <span className="threat-count">{origin.count}</span>
-              </div>
-            ))}
-          </div>
-          <div className="world-map-placeholder">
-            <Activity size={48} className="map-icon" />
-            <span>Live Threat Map</span>
+              ))}
+            </div>
+            <div className="world-map-placeholder">
+              <Activity size={48} className="map-icon" />
+              <span>Live Threat Map</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
       {/* ── Reset All Confirmation Modal ── */}
       {isResetModalOpen && (
@@ -814,7 +814,7 @@ const Overview = () => {
                     <li><Trash2 size={14} /> Blockchain reset to genesis block</li>
                   </ul>
                   <p className="reset-warning-note">Tables &amp; files remain intact. Only data is erased. This cannot be undone.</p>
-                </div>      
+                </div>
 
                 <div className="reset-password-group">
                   <label className="reset-password-label">
