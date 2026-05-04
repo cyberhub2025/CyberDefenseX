@@ -60,6 +60,7 @@ const Overview = () => {
   const [overviewData, setOverviewData] = useState(DEFAULT_OVERVIEW_DATA);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const [assetCount, setAssetCount] = useState(0);
 
   // Reset All modal state
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
@@ -116,6 +117,16 @@ const Overview = () => {
   // Notifications state
   const [notifications, setNotifications] = useState([]);
   const [notificationsLoading, setNotificationsLoading] = useState(false);
+
+  const fetchAssetCount = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/assets`, { credentials: 'include' });
+      if (res.ok) {
+        const data = await res.json();
+        setAssetCount(Array.isArray(data) ? data.length : 0);
+      }
+    } catch { /* silently fail */ }
+  };
 
   const fetchOverview = async () => {
     setErrorMessage('');
@@ -189,6 +200,17 @@ const Overview = () => {
     }
   };
 
+  const todayName = new Date().toLocaleDateString('en-US', { weekday: 'short' });
+  const threatsToday = (overviewData.threatActivity ?? []).find(d => d.name === todayName)?.threats ?? 0;
+  const yesterdayName = new Date(Date.now() - 86400000).toLocaleDateString('en-US', { weekday: 'short' });
+  const threatsYesterday = (overviewData.threatActivity ?? []).find(d => d.name === yesterdayName)?.threats ?? 0;
+  const threatsTodayChange = (() => {
+    if (threatsYesterday <= 0) return threatsToday > 0 ? '+100%' : '0%';
+    const pct = Math.round(((threatsToday - threatsYesterday) / threatsYesterday) * 100);
+    return (pct >= 0 ? '+' : '') + pct + '%';
+  })();
+  const threatsTodayTrend = threatsToday >= threatsYesterday ? 'up' : 'down';
+
   const stats = [
     {
       title: 'Active Threats',
@@ -199,10 +221,10 @@ const Overview = () => {
       color: 'red'
     },
     {
-      title: 'Alerts Today',
-      value: String(overviewData.stats.alertsToday?.value ?? 0),
-      change: overviewData.stats.alertsToday?.change || '0%',
-      trend: overviewData.stats.alertsToday?.trend || 'up',
+      title: 'Threats Today',
+      value: String(threatsToday),
+      change: threatsTodayChange,
+      trend: threatsTodayTrend,
       icon: AlertTriangle,
       color: 'yellow'
     },
@@ -215,12 +237,12 @@ const Overview = () => {
       color: 'orange'
     },
     {
-      title: 'Protected Assets',
-      value: String(overviewData.stats.protectedAssets?.value ?? 0),
-      change: overviewData.stats.protectedAssets?.change || '0%',
-      trend: overviewData.stats.protectedAssets?.trend || 'up',
+      title: 'Assets',
+      value: String(assetCount),
+      sub: 'Monitored assets',
       icon: Server,
-      color: 'cyan'
+      color: 'cyan',
+      path: '/assets'
     }
   ];
 
@@ -298,12 +320,18 @@ const Overview = () => {
   useEffect(() => {
     fetchOverview();
     fetchNotifications();
+    fetchAssetCount();
 
     // Fallback safety-net poll (60s) in case SSE connection drops
     const pollTimer = setInterval(() => {
       fetchOverview();
       fetchNotifications();
     }, 60000);
+
+    // Fast poll for asset count so card stays in sync with Assets page
+    const assetPollTimer = setInterval(() => {
+      fetchAssetCount();
+    }, 10000);
 
     const handleClickOutside = (event) => {
       if (notificationRef.current && !notificationRef.current.contains(event.target)) {
@@ -326,6 +354,7 @@ const Overview = () => {
 
     return () => {
       clearInterval(pollTimer);
+      clearInterval(assetPollTimer);
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
@@ -475,7 +504,12 @@ const Overview = () => {
 
       <div className="stats-grid">
         {stats.map((stat, index) => (
-          <div key={index} className={`stat-card stat-${stat.color}`}>
+          <div
+            key={index}
+            className={`stat-card stat-${stat.color}`}
+            onClick={() => stat.path && navigate(stat.path)}
+            style={{ cursor: stat.path ? 'pointer' : 'default' }}
+          >
             <div className="stat-icon">
               <stat.icon size={24} />
             </div>
@@ -483,11 +517,14 @@ const Overview = () => {
               <span className="stat-title">{stat.title}</span>
               <div className="stat-value-row">
                 <span className="stat-value">{stat.value}</span>
-                <span className={`stat-change ${stat.trend}`}>
-                  {stat.trend === 'up' ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-                  {stat.change}
-                </span>
+                {stat.trend && (
+                  <span className={`stat-change ${stat.trend}`}>
+                    {stat.trend === 'up' ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                    {stat.change}
+                  </span>
+                )}
               </div>
+              {stat.sub && <span className="stat-sub">{stat.sub}</span>}
             </div>
           </div>
         ))}
@@ -650,8 +687,8 @@ const Overview = () => {
             <h3 className="card-title">Network Traffic</h3>
           </div>
           <div className="chart-container">
-            <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={networkData}>
+            <ResponsiveContainer width="100%" height={320}>
+              <LineChart data={networkData} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#2a2a5a" />
                 <XAxis dataKey="time" stroke="#6a6a8a" />
                 <YAxis stroke="#6a6a8a" />
