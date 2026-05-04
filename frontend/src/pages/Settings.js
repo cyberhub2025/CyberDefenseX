@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Settings as SettingsIcon,
@@ -19,9 +19,21 @@ import {
   EyeOff,
   Check,
   AlertTriangle,
-  Zap
+  Zap,
+  Plus,
+  Trash2,
+  Download,
+  Upload,
+  Terminal,
+  Edit3,
+  X,
+  Loader,
+  Copy,
+  CheckCircle
 } from 'lucide-react';
 import './Settings.css';
+
+const API_BASE_URL = process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:8000';
 
 const Settings = ({ theme, setTheme, accentColor, setAccentColor, userProfile, setUserProfile }) => {
   const [activeSection, setActiveSection] = useState('profile');
@@ -50,8 +62,22 @@ const Settings = ({ theme, setTheme, accentColor, setAccentColor, userProfile, s
     return name.substring(0, 2).toUpperCase();
   };
 
-  const handleProfileSave = () => {
+  const handleProfileSave = async () => {
     setUserProfile(profileForm);
+    try {
+      await fetch(`${API_BASE_URL}/api/user/profile`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          profile: profileForm,
+          appearance: { theme, accentColor }
+        })
+      });
+      // Optionally show a success message
+    } catch (e) {
+      console.error('Failed to save profile to backend:', e);
+    }
   };
 
   const handleAvatarChange = (e) => {
@@ -80,6 +106,104 @@ const Settings = ({ theme, setTheme, accentColor, setAccentColor, userProfile, s
     weeklyDigest: false,
     threatIntel: true
   });
+
+  // --- Environment Variables State ---
+  const [envVars, setEnvVars] = useState([]);
+  const [envLoading, setEnvLoading] = useState(false);
+  const [envSaving, setEnvSaving] = useState(false);
+  const [envError, setEnvError] = useState(null);
+  const [envSuccess, setEnvSuccess] = useState(null);
+  const [envDirty, setEnvDirty] = useState(false);
+  const [visibleValues, setVisibleValues] = useState({});
+  const [copiedKey, setCopiedKey] = useState(null);
+
+  const fetchEnvVars = useCallback(async () => {
+    setEnvLoading(true);
+    setEnvError(null);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/env`);
+      const data = await res.json();
+      if (data.success) {
+        setEnvVars(data.variables || []);
+        setEnvDirty(false);
+      } else {
+        setEnvError(data.error || 'Failed to load environment variables');
+      }
+    } catch (err) {
+      setEnvError('Could not connect to backend. Make sure the server is running.');
+    } finally {
+      setEnvLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (activeSection === 'integrations') {
+      fetchEnvVars();
+    }
+  }, [activeSection, fetchEnvVars]);
+
+  const handleEnvVarChange = (index, field, value) => {
+    const updated = [...envVars];
+    updated[index] = { ...updated[index], [field]: value };
+    setEnvVars(updated);
+    setEnvDirty(true);
+    setEnvSuccess(null);
+  };
+
+  const handleAddEnvVar = () => {
+    setEnvVars([...envVars, { key: '', value: '' }]);
+    setEnvDirty(true);
+    setEnvSuccess(null);
+  };
+
+  const handleRemoveEnvVar = (index) => {
+    const updated = envVars.filter((_, i) => i !== index);
+    setEnvVars(updated);
+    setEnvDirty(true);
+    setEnvSuccess(null);
+  };
+
+  const handleSaveEnvVars = async () => {
+    setEnvSaving(true);
+    setEnvError(null);
+    setEnvSuccess(null);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/env`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ variables: envVars }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setEnvSuccess(data.message || 'Environment variables saved successfully!');
+        setEnvDirty(false);
+        setTimeout(() => setEnvSuccess(null), 4000);
+      } else {
+        setEnvError(data.error || 'Failed to save environment variables');
+      }
+    } catch (err) {
+      setEnvError('Failed to save. Check backend connection.');
+    } finally {
+      setEnvSaving(false);
+    }
+  };
+
+  const toggleValueVisibility = (index) => {
+    setVisibleValues(prev => ({ ...prev, [index]: !prev[index] }));
+  };
+
+  const handleCopyValue = (index) => {
+    const val = envVars[index]?.value || '';
+    navigator.clipboard.writeText(val).then(() => {
+      setCopiedKey(index);
+      setTimeout(() => setCopiedKey(null), 2000);
+    });
+  };
+
+  const isSensitiveKey = (key) => {
+    const lower = (key || '').toLowerCase();
+    return lower.includes('key') || lower.includes('secret') || lower.includes('password') || lower.includes('token');
+  };
 
   const sections = [
     { id: 'profile', label: 'Profile', icon: User },
@@ -429,6 +553,13 @@ const Settings = ({ theme, setTheme, accentColor, setAccentColor, userProfile, s
                 ></button>
               </div>
             </div>
+
+            <div className="form-actions">
+              <button className="btn btn-primary" onClick={handleProfileSave}>
+                <Save size={16} />
+                Save Appearance
+              </button>
+            </div>
           </div>
         );
 
@@ -478,44 +609,143 @@ const Settings = ({ theme, setTheme, accentColor, setAccentColor, userProfile, s
 
       default:
         return (
-          <div className="settings-section">
-            <h2 className="section-title">Integrations</h2>
-            <p className="section-description">Connect with third-party services and tools</p>
-
-            <div className="integrations-grid">
-              <div className="integration-card connected">
-                <div className="integration-logo">SIEM</div>
-                <div className="integration-info">
-                  <h4>Splunk SIEM</h4>
-                  <span className="integration-status connected">Connected</span>
-                </div>
-                <button className="btn btn-secondary small">Configure</button>
+          <div className="settings-section env-section">
+            <div className="env-header">
+              <div className="env-header-text">
+                <h2 className="section-title">
+                  <Terminal size={22} className="env-title-icon" />
+                  Environment Configuration
+                </h2>
+                <p className="section-description">
+                  Manage backend <code>.env</code> variables directly. Changes are written to the server's environment file and take effect immediately.
+                </p>
               </div>
-              <div className="integration-card connected">
-                <div className="integration-logo">SOAR</div>
-                <div className="integration-info">
-                  <h4>Palo Alto XSOAR</h4>
-                  <span className="integration-status connected">Connected</span>
-                </div>
-                <button className="btn btn-secondary small">Configure</button>
-              </div>
-              <div className="integration-card">
-                <div className="integration-logo">EDR</div>
-                <div className="integration-info">
-                  <h4>CrowdStrike</h4>
-                  <span className="integration-status">Not connected</span>
-                </div>
-                <button className="btn btn-primary small">Connect</button>
-              </div>
-              <div className="integration-card">
-                <div className="integration-logo">SLACK</div>
-                <div className="integration-info">
-                  <h4>Slack</h4>
-                  <span className="integration-status">Not connected</span>
-                </div>
-                <button className="btn btn-primary small">Connect</button>
+              <div className="env-header-actions">
+                <button
+                  className="btn btn-secondary env-reload-btn"
+                  onClick={fetchEnvVars}
+                  disabled={envLoading}
+                  title="Reload from .env file"
+                >
+                  <RefreshCw size={15} className={envLoading ? 'spin' : ''} />
+                  Reload
+                </button>
               </div>
             </div>
+
+            {envError && (
+              <div className="env-alert env-alert-error">
+                <AlertTriangle size={16} />
+                <span>{envError}</span>
+                <button className="env-alert-close" onClick={() => setEnvError(null)}><X size={14} /></button>
+              </div>
+            )}
+            {envSuccess && (
+              <div className="env-alert env-alert-success">
+                <CheckCircle size={16} />
+                <span>{envSuccess}</span>
+                <button className="env-alert-close" onClick={() => setEnvSuccess(null)}><X size={14} /></button>
+              </div>
+            )}
+
+            {envLoading ? (
+              <div className="env-loading">
+                <Loader size={28} className="spin" />
+                <span>Loading environment variables...</span>
+              </div>
+            ) : (
+              <>
+                <div className="env-var-count">
+                  <span className="env-badge">{envVars.length}</span> variable{envVars.length !== 1 ? 's' : ''} loaded
+                  {envDirty && <span className="env-unsaved-badge">Unsaved changes</span>}
+                </div>
+
+                <div className="env-vars-list">
+                  {envVars.map((envVar, index) => (
+                    <div key={index} className="env-var-row">
+                      <div className="env-var-index">{index + 1}</div>
+                      <div className="env-var-fields">
+                        <div className="env-var-key-group">
+                          <label className="env-var-label">Key</label>
+                          <input
+                            type="text"
+                            className="form-input env-var-key"
+                            value={envVar.key}
+                            onChange={(e) => handleEnvVarChange(index, 'key', e.target.value)}
+                            placeholder="VARIABLE_NAME"
+                            spellCheck={false}
+                          />
+                        </div>
+                        <div className="env-var-value-group">
+                          <label className="env-var-label">Value</label>
+                          <div className="env-var-value-wrapper">
+                            <input
+                              type={isSensitiveKey(envVar.key) && !visibleValues[index] ? 'password' : 'text'}
+                              className="form-input env-var-value"
+                              value={envVar.value}
+                              onChange={(e) => handleEnvVarChange(index, 'value', e.target.value)}
+                              placeholder="value"
+                              spellCheck={false}
+                            />
+                            <div className="env-var-value-actions">
+                              {isSensitiveKey(envVar.key) && (
+                                <button
+                                  className="env-icon-btn"
+                                  onClick={() => toggleValueVisibility(index)}
+                                  title={visibleValues[index] ? 'Hide value' : 'Show value'}
+                                >
+                                  {visibleValues[index] ? <EyeOff size={14} /> : <Eye size={14} />}
+                                </button>
+                              )}
+                              <button
+                                className="env-icon-btn"
+                                onClick={() => handleCopyValue(index)}
+                                title="Copy value"
+                              >
+                                {copiedKey === index ? <Check size={14} className="copied" /> : <Copy size={14} />}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        className="env-delete-btn"
+                        onClick={() => handleRemoveEnvVar(index)}
+                        title="Remove variable"
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
+                  ))}
+
+                  {envVars.length === 0 && (
+                    <div className="env-empty">
+                      <Terminal size={36} />
+                      <p>No environment variables found</p>
+                      <span>Add a new variable to get started</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="env-actions-bar">
+                  <button className="btn btn-secondary env-add-btn" onClick={handleAddEnvVar}>
+                    <Plus size={16} />
+                    Add Variable
+                  </button>
+                  <button
+                    className={`btn btn-primary env-save-btn ${envDirty ? 'pulse' : ''}`}
+                    onClick={handleSaveEnvVars}
+                    disabled={envSaving || !envDirty}
+                  >
+                    {envSaving ? (
+                      <><Loader size={16} className="spin" /> Saving...</>
+                    ) : (
+                      <><Save size={16} /> Save Changes</>
+                    )}
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         );
     }

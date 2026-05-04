@@ -502,59 +502,378 @@
   border-color: var(--accent-red);
 }
 
-/* Integrations */
-.integrations-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+/* Integrations / Env Variables Editor */
+.env-section {
+  max-width: 860px !important;
 }
 
-.integration-card {
+.env-header {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 16px;
-  padding: 20px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  transition: all 0.2s ease;
+  margin-bottom: 8px;
 }
 
-.integration-card.connected {
-  border-color: var(--accent-green);
-}
-
-.integration-logo {
-  width: 48px;
-  height: 48px;
-  background: var(--bg-card);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--accent-cyan);
-}
-
-.integration-info {
+.env-header-text {
   flex: 1;
 }
 
-.integration-info h4 {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 4px;
+.section-title .env-title-icon {
+  display: inline-block;
+  vertical-align: -4px;
+  margin-right: 8px;
+  color: var(--accent-cyan);
 }
 
-.integration-status {
+.section-description code {
+  padding: 2px 7px;
+  background: rgba(0, 212, 255, 0.1);
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
   font-size: 12px;
-  color: var(--text-muted);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 212, 255, 0.15);
 }
 
-.integration-status.connected {
-  color: var(--accent-green);
+.env-header-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.env-reload-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Alerts */
+.env-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.env-alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #f87171;
+}
+
+.env-alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: #34d399;
+}
+
+.env-alert span {
+  flex: 1;
+}
+
+.env-alert-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.2s;
+}
+
+.env-alert-close:hover {
+  opacity: 1;
+}
+
+/* Loading */
+.env-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Count badge */
+.env-var-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.env-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  background: var(--accent-cyan);
+  color: #0a0f1c;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 6px;
+}
+
+.env-unsaved-badge {
+  margin-left: 8px;
+  padding: 3px 10px;
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Variables list */
+.env-vars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.env-var-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 16px 16px 16px 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  animation: rowFadeIn 0.3s ease-out;
+}
+
+@keyframes rowFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.env-var-row:hover {
+  border-color: rgba(0, 212, 255, 0.25);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.env-var-index {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  background: rgba(0, 212, 255, 0.08);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  margin-bottom: 6px;
+}
+
+.env-var-fields {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.env-var-key-group {
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.env-var-value-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.env-var-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  padding-left: 2px;
+}
+
+.env-var-key {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--accent-cyan) !important;
+  letter-spacing: 0.3px;
+}
+
+.env-var-value-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+
+.env-var-value {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace !important;
+  font-size: 13px !important;
+  padding-right: 72px !important;
+  flex: 1;
+}
+
+.env-var-value-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.env-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.env-icon-btn:hover {
+  color: var(--accent-cyan);
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.env-icon-btn .copied {
+  color: var(--accent-green) !important;
+}
+
+.env-delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border: none;
+  background: rgba(239, 68, 68, 0.08);
+  border-radius: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 6px;
+}
+
+.env-delete-btn:hover {
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.18);
+  transform: scale(1.05);
+}
+
+/* Empty state */
+.env-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 48px 20px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.env-empty p {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.env-empty span {
+  font-size: 13px;
+}
+
+/* Actions bar */
+.env-actions-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+}
+
+.env-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.env-save-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 150px;
+  justify-content: center;
+}
+
+.env-save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(0, 212, 255, 0); }
+}
+
+.env-save-btn.pulse:not(:disabled) {
+  animation: pulse 2s ease-in-out infinite;
 }
 
 @media (max-width: 900px) {
@@ -587,5 +906,25 @@
 
   .integrations-grid {
     grid-template-columns: 1fr;
+  }
+
+  .env-header {
+    flex-direction: column;
+  }
+
+  .env-var-fields {
+    flex-direction: column;
+  }
+
+  .env-var-key-group {
+    flex: 1;
+  }
+
+  .env-actions-bar {
+    flex-direction: column;
+  }
+
+  .env-save-btn {
+    width: 100%;
   }
 }

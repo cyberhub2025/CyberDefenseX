@@ -62,6 +62,29 @@ function App() {
     };
   });
 
+  const API_BASE_URL = process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:8000';
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/user/profile`, { credentials: 'include' });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success) {
+            setUserProfile(data.profile);
+            if (data.appearance) {
+              if (data.appearance.theme) setTheme(data.appearance.theme);
+              if (data.appearance.accentColor) setAccentColor(data.appearance.accentColor);
+            }
+          }
+        }
+      } catch (e) {
+        console.error('Failed to fetch user profile:', e);
+      }
+    };
+    fetchProfile();
+  }, []);
+
   // Save user profile to localStorage
   useEffect(() => {
     localStorage.setItem('userProfile', JSON.stringify(userProfile));

@@ -30,6 +30,18 @@ from logger import get_logger
 def load_env_file() -> None:
     env_path = os.path.join(os.path.dirname(__file__), ".env")
     if not os.path.exists(env_path):
+        try:
+            with open(env_path, "w", encoding="utf-8") as env_file:
+                env_file.write('SECRET_KEY="cyber_defense_ultra_secret_key_2025"\n')
+                env_file.write('FRONTEND_URL="https://cyberdefensex.dpdns.org, https://cyberhub2025.github.io, http://localhost:3000, http://127.0.0.1:3000"\n')
+                env_file.write('BACKEND_URL="http://localhost:8000"\n')
+                env_file.write("NVIDIA_API_KEY=\n")
+                env_file.write("GOOGLE_CLIENT_ID=\n")
+                env_file.write("GOOGLE_CLIENT_SECRET=\n")
+                env_file.write("GITHUB_CLIENT_ID=\n")
+                env_file.write("GITHUB_CLIENT_SECRET=\n")
+        except Exception as e:
+            print(f"Warning: Could not create .env file automatically: {e}")
         return
 
     with open(env_path, "r", encoding="utf-8") as env_file:
@@ -393,7 +405,12 @@ def init_db() -> None:
             username TEXT UNIQUE,
             password TEXT,
             oauth_provider TEXT,
-            oauth_id TEXT
+            oauth_id TEXT,
+            job_title TEXT,
+            department TEXT,
+            timezone TEXT,
+            avatar TEXT,
+            appearance TEXT
         )
         """
     )
@@ -1186,6 +1203,83 @@ async def home(request: Request):
             }
         )
     return RedirectResponse(url="/login", status_code=302)
+
+
+@app.get("/api/user/profile")
+async def get_user_profile(request: Request):
+    username = request.session.get("username")
+    if not username:
+        return JSONResponse({"success": False, "message": "Unauthorized"}, status_code=401)
+        
+    conn = get_db_connection()
+    try:
+        user = conn.execute("SELECT fullname, username, job_title, department, timezone, avatar, appearance FROM users WHERE username=?", (username,)).fetchone()
+        if not user:
+            return JSONResponse({"success": False, "message": "User not found"}, status_code=404)
+            
+        appearance_data = {}
+        try:
+            if user["appearance"]:
+                import json
+                appearance_data = json.loads(user["appearance"])
+        except Exception:
+            pass
+            
+        return JSONResponse({
+            "success": True,
+            "profile": {
+                "fullName": user["fullname"] or "",
+                "email": user["username"] or "",
+                "jobTitle": user["job_title"] or "",
+                "department": user["department"] or "",
+                "timezone": user["timezone"] or "",
+                "avatar": user["avatar"]
+            },
+            "appearance": appearance_data
+        })
+    finally:
+        conn.close()
+
+
+@app.put("/api/user/profile")
+async def update_user_profile(request: Request):
+    username = request.session.get("username")
+    if not username:
+        return JSONResponse({"success": False, "message": "Unauthorized"}, status_code=401)
+        
+    data = await request.json()
+    profile = data.get("profile", {})
+    appearance = data.get("appearance", {})
+    
+    conn = get_db_connection()
+    try:
+        import json
+        appearance_str = json.dumps(appearance) if appearance else None
+        
+        conn.execute("""
+            UPDATE users 
+            SET fullname=?, job_title=?, department=?, timezone=?, avatar=?, appearance=?
+            WHERE username=?
+        """, (
+            profile.get("fullName"),
+            profile.get("jobTitle"),
+            profile.get("department"),
+            profile.get("timezone"),
+            profile.get("avatar"),
+            appearance_str,
+            username
+        ))
+        conn.commit()
+        
+        # Update session name just in case
+        if profile.get("fullName"):
+            request.session["fullname"] = profile.get("fullName")
+            
+        return JSONResponse({"success": True, "message": "Profile updated successfully"})
+    except Exception as e:
+        return JSONResponse({"success": False, "message": str(e)}, status_code=500)
+    finally:
+        conn.close()
 
 
 @app.get("/logout")
@@ -2162,6 +2256,88 @@ async def reset_all_data(request: Request):
         "message": "Complete system reset successful. All data has been cleared.",
         "details": result_details,
     })
+
+# ---------------------------------------------------------------------------
+# Environment Variables Management
+# ---------------------------------------------------------------------------
+ENV_FILE_PATH = os.path.join(os.path.dirname(__file__), ".env")
+
+
+def _read_env_file() -> list:
+    """Parse the .env file and return a list of dicts with key, value, and comment info."""
+    entries = []
+    if not os.path.exists(ENV_FILE_PATH):
+        return entries
+    with open(ENV_FILE_PATH, "r", encoding="utf-8") as f:
+        for raw_line in f:
+            line = raw_line.rstrip("\n").rstrip("\r")
+            stripped = line.strip()
+            if not stripped or stripped.startswith("#"):
+                continue
+            if "=" not in stripped:
+                continue
+            key, value = stripped.split("=", 1)
+            key = key.strip()
+            value = value.strip()
+            entries.append({"key": key, "value": value})
+    return entries
+
+
+def _write_env_file(entries: list) -> None:
+    """Write a list of {key, value} dicts back to the .env file."""
+    lines = []
+    for entry in entries:
+        key = entry.get("key", "").strip()
+        value = entry.get("value", "").strip()
+        if key:
+            lines.append(f"{key}={value}")
+    with open(ENV_FILE_PATH, "w", encoding="utf-8", newline="\n") as f:
+        f.write("\n".join(lines) + "\n")
+
+
+@app.get("/api/env")
+async def get_env_variables():
+    """Return all environment variables from the backend .env file."""
+    try:
+        entries = _read_env_file()
+        return JSONResponse({"success": True, "variables": entries})
+    except Exception as exc:
+        logger.error("Failed to read .env file: %s", exc)
+        return JSONResponse(
+            {"success": False, "error": str(exc)}, status_code=500
+        )
+
+
+@app.put("/api/env")
+async def update_env_variables(request: Request):
+    """Update the backend .env file with the provided variables list."""
+    try:
+        body = await request.json()
+        variables = body.get("variables", [])
+        if not isinstance(variables, list):
+            return JSONResponse(
+                {"success": False, "error": "variables must be a list"},
+                status_code=400,
+            )
+        # Validate each entry has a key
+        for entry in variables:
+            if not entry.get("key", "").strip():
+                return JSONResponse(
+                    {"success": False, "error": "Each variable must have a non-empty key"},
+                    status_code=400,
+                )
+        _write_env_file(variables)
+        # Re-load the env vars into os.environ so they take effect
+        for entry in variables:
+            os.environ[entry["key"].strip()] = entry.get("value", "").strip()
+        logger.info("Environment variables updated via API (%d entries)", len(variables))
+        return JSONResponse({"success": True, "message": f"Updated {len(variables)} variables"})
+    except Exception as exc:
+        logger.error("Failed to update .env file: %s", exc)
+        return JSONResponse(
+            {"success": False, "error": str(exc)}, status_code=500
+        )
+
 
 # ---------------------------------------------------------------------------
 # SSE event stream for real-time frontend updates
