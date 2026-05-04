@@ -305,7 +305,7 @@ export default function Landing() {
             <p className="mt-5 text-base md:text-lg text-slate-300">Experience the world’s first fully autonomous Cyber Defense System. Combining advanced AI, immutable blockchain ledgers, and self-healing infrastructure to provide analyst-grade explainability and global threat intelligence.</p>
 
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <button type="button" className="button" onClick={() => nav("/login?mode=register")}>
+              <button type="button" className="button" onClick={() => nav("/get-started")}>
                 <div className="points_wrapper">{Array.from({ length: 10 }).map((_, i) => <i key={i} className="point" />)}</div>
                 <span className="inner">Get Started
                   <svg className="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg></span>

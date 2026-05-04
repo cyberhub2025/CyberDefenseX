@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Landing from './pages/Landing';
+import GetStarted from './pages/GetStarted';
 import Login from './pages/Login';
 import OAuthCallback from './pages/OAuthCallback';
 import OAuthSuccess from './pages/OAuthSuccess';
@@ -111,6 +112,7 @@ function App() {
       <Routes>
         {/* Public routes - no sidebar */}
         <Route path="/" element={<Landing />} />
+        <Route path="/get-started" element={<GetStarted />} />
         <Route path="/login" element={<Login setUserProfile={setUserProfile} />} />
 
         {/* OAuth callback routes */}
