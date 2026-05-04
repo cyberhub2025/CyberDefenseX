@@ -1,39 +1,14 @@
 <div align="center">
-
-<!-- HERO BANNER -->
-<img src="./assets/banner.png" alt="CyberDefenseX — AI + Blockchain Powered Autonomous SIEM & SOAR" width="100%"/>
-
-<br/>
-
-<!-- TYPING SVG -->
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=22&pause=1000&color=00FFFF&center=true&vCenter=true&width=750&lines=🔐+Autonomous+Threat+Detection+%26+Response;⛓️+Blockchain-Backed+Immutable+Audit+Logs;🤖+NVIDIA+NIM+AI-Powered+Security+Analyst;📡+Real-Time+SSE+Dashboard+Updates;🛡️+Self-Healing+Cyber+Defense+Infrastructure" alt="Typing SVG" />
-
-<br/><br/>
-
 <!-- LIVE DEMO & DOCS BADGES -->
+  
 [![Live Demo](https://img.shields.io/badge/🌐%20Live%20Demo-CyberDefenseX-00ffff?style=for-the-badge&logo=github&logoColor=black&labelColor=0f0c29)](https://cyberdefensex.dpdns.org/)
 [![DeepWiki Docs](https://img.shields.io/badge/📚%20Docs-DeepWiki-c792ea?style=for-the-badge&logo=gitbook&logoColor=white&labelColor=302b63)](https://deepwiki.com/cyberhub2025/CyberDefenseX_Ultra)
 [![License](https://img.shields.io/badge/📄%20License-MIT-39ff14?style=for-the-badge&labelColor=1a1a2e)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/🤝%20PRs-Welcome-ff6bcb?style=for-the-badge&labelColor=24243e)](https://github.com/cyberhub2025/CyberDefenseX_Ultra/pulls)
-
 <br/>
-
-<!-- TECH STACK BADGES -->
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
-![React](https://img.shields.io/badge/React_18-61DAFB?style=flat-square&logo=react&logoColor=black)
-![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
-![OpenAI](https://img.shields.io/badge/NVIDIA_NIM-76B900?style=flat-square&logo=nvidia&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)
-![Blockchain](https://img.shields.io/badge/Blockchain-F7931A?style=flat-square&logo=bitcoin&logoColor=white)
-
 </div>
-
----
-
 <div align="center">
-
+  
 ## 💥 **Autonomous. Transparent. Unbreakable.**
 
 > *A fully autonomous Cyber Defense System combining **real-time AI threat detection**, **blockchain-backed tamper-proof audit logs**, and **self-healing infrastructure** — delivering analyst-grade explainability and automated incident response.*
@@ -45,7 +20,19 @@
 ![Social Media (4)](https://github.com/user-attachments/assets/315a9f53-83f1-4a97-9c62-73e65308c705)
 
 ---
+<div align="center">
+  
+<!-- TECH STACK BADGES -->
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React_18-61DAFB?style=flat-square&logo=react&logoColor=black)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![OpenAI](https://img.shields.io/badge/NVIDIA_NIM-76B900?style=flat-square&logo=nvidia&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)
+![Blockchain](https://img.shields.io/badge/Blockchain-F7931A?style=flat-square&logo=bitcoin&logoColor=white)
 
+</div>
 ## ✨ Core Capabilities
 
 <div align="center">
