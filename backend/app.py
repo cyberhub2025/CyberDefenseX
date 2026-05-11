@@ -664,18 +664,8 @@ def sync_alerts_db_from_excel() -> int:
             ordered_ids.append(alert["id"])
             conn.execute(
                 """
-                INSERT INTO alerts (id, name, type, severity, source, target, detected_at, row_index, updated_at)
+                INSERT OR REPLACE INTO alerts (id, name, type, severity, source, target, detected_at, row_index, updated_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ON CONFLICT(id)
-                DO UPDATE SET
-                    name=excluded.name,
-                    type=excluded.type,
-                    severity=excluded.severity,
-                    source=excluded.source,
-                    target=excluded.target,
-                    detected_at=excluded.detected_at,
-                    row_index=excluded.row_index,
-                    updated_at=excluded.updated_at
                 """,
                 (
                     alert["id"],

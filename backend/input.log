@@ -2509,3 +2509,159 @@ Press CTRL+C to quit ||SRC_IP=192.168.186.159
  * Debugger is active! ||SRC_IP=192.168.186.159
  * Debugger PIN: 725-124-945 ||SRC_IP=192.168.186.159
 127.0.0.1 - - [04/May/2026 17:08:35] GET /api/tweets?q= HTTP/1.1 200 - ||SRC_IP=192.168.186.159
+ * Serving Flask app 'app' ||SRC_IP=192.168.26.159
+ * Debug mode: on ||SRC_IP=192.168.26.159
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead. ||SRC_IP=192.168.26.159
+ * Running on all addresses (0.0.0.0) ||SRC_IP=192.168.26.159
+ * Running on http://127.0.0.1:6001 ||SRC_IP=192.168.26.159
+ * Running on http://192.168.26.159:6001 ||SRC_IP=192.168.26.159
+Press CTRL+C to quit ||SRC_IP=192.168.26.159
+ * Restarting with watchdog (windowsapi) ||SRC_IP=192.168.26.159
+ * Debugger is active! ||SRC_IP=192.168.26.159
+ * Debugger PIN: 339-603-659 ||SRC_IP=192.168.26.159
+ * Detected change in 'C:\\Users\\User\\Desktop\\machine1\\sender.py', reloading ||SRC_IP=192.168.26.159
+ * Restarting with watchdog (windowsapi) ||SRC_IP=192.168.26.159
+ * Debugger is active! ||SRC_IP=192.168.26.159
+ * Debugger PIN: 339-603-659 ||SRC_IP=192.168.26.159
+ * Detected change in 'C:\\Users\\User\\Desktop\\machine1\\sender.py', reloading ||SRC_IP=192.168.26.159
+ * Detected change in 'C:\\Users\\User\\Desktop\\machine1\\sender.py', reloading ||SRC_IP=192.168.26.159
+ * Restarting with watchdog (windowsapi) ||SRC_IP=192.168.26.159
+ * Debugger is active! ||SRC_IP=192.168.26.159
+ * Debugger PIN: 339-603-659 ||SRC_IP=192.168.26.159
+ * Detected change in 'C:\\Users\\User\\Desktop\\machine1\\sender.py', reloading ||SRC_IP=192.168.26.159
+ * Detected change in 'C:\\Users\\User\\Desktop\\machine1\\sender.py', reloading ||SRC_IP=192.168.26.159
+ * Restarting with watchdog (windowsapi) ||SRC_IP=192.168.26.159
+ * Debugger is active! ||SRC_IP=192.168.26.159
+ * Debugger PIN: 339-603-659 ||SRC_IP=192.168.26.159
+ * Detected change in 'C:\\Users\\User\\Desktop\\machine1\\sender.py', reloading ||SRC_IP=192.168.26.159
+ * Detected change in 'C:\\Users\\User\\Desktop\\machine1\\sender.py', reloading ||SRC_IP=192.168.26.159
+ * Restarting with watchdog (windowsapi) ||SRC_IP=192.168.26.159
+ * Debugger is active! ||SRC_IP=192.168.26.159
+ * Debugger PIN: 339-603-659 ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:09] code 400, message Bad request version ('{ªH\x19Â\x17ØFK\x97\x89zÙLuÄJ$¥Ô\x8f\x14«\x17Ç,') ||SRC_IP=192.168.26.159
+---------------------------------------- ||SRC_IP=192.168.26.159
+Exception occurred during processing of request from ('192.168.26.159', 51432) ||SRC_IP=192.168.26.159
+ * Detected change in 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\socketserver.py', reloading ||SRC_IP=192.168.26.159
+ * Detected change in 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\serving.py', reloading ||SRC_IP=192.168.26.159
+ * Detected change in 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\http\\server.py', reloading ||SRC_IP=192.168.26.159
+Traceback (most recent call last): ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\http\server.py", line 292, in parse_request ||SRC_IP=192.168.26.159
+    raise ValueError ||SRC_IP=192.168.26.159
+ValueError ||SRC_IP=192.168.26.159
+During handling of the above exception, another exception occurred: ||SRC_IP=192.168.26.159
+Traceback (most recent call last): ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\socketserver.py", line 697, in process_request_thread ||SRC_IP=192.168.26.159
+    self.finish_request(request, client_address) ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\socketserver.py", line 362, in finish_request ||SRC_IP=192.168.26.159
+    self.RequestHandlerClass(request, client_address, self) ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\socketserver.py", line 766, in __init__ ||SRC_IP=192.168.26.159
+    self.handle() ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\serving.py", line 398, in handle ||SRC_IP=192.168.26.159
+    super().handle() ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\http\server.py", line 436, in handle ||SRC_IP=192.168.26.159
+    self.handle_one_request() ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~~~~~~~~~~^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\http\server.py", line 414, in handle_one_request ||SRC_IP=192.168.26.159
+    if not self.parse_request(): ||SRC_IP=192.168.26.159
+           ~~~~~~~~~~~~~~~~~~^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\http\server.py", line 309, in parse_request ||SRC_IP=192.168.26.159
+    self.send_error( ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~~^ ||SRC_IP=192.168.26.159
+        HTTPStatus.BAD_REQUEST, ||SRC_IP=192.168.26.159
+        ^^^^^^^^^^^^^^^^^^^^^^^ ||SRC_IP=192.168.26.159
+        "Bad request version (%r)" % version) ||SRC_IP=192.168.26.159
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\http\server.py", line 467, in send_error ||SRC_IP=192.168.26.159
+    self.send_response(code, message) ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\http\server.py", line 501, in send_response ||SRC_IP=192.168.26.159
+    self.log_request(code) ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~~~^^^^^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\Desktop\machine1\app.py", line 26, in log_request ||SRC_IP=192.168.26.159
+    msg = f'{self.command} {self.path} {self.request_version} {code} {size}' ||SRC_IP=192.168.26.159
+                            ^^^^^^^^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\serving.py", line 420, in __getattr__ ||SRC_IP=192.168.26.159
+    return getattr(super(), name) ||SRC_IP=192.168.26.159
+AttributeError: 'super' object has no attribute 'path' ||SRC_IP=192.168.26.159
+---------------------------------------- ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:09] code 400, message Bad request version ('ZZ\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06s') ||SRC_IP=192.168.26.159
+---------------------------------------- ||SRC_IP=192.168.26.159
+Exception occurred during processing of request from ('192.168.26.159', 64702) ||SRC_IP=192.168.26.159
+Traceback (most recent call last): ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\http\server.py", line 292, in parse_request ||SRC_IP=192.168.26.159
+    raise ValueError ||SRC_IP=192.168.26.159
+ValueError ||SRC_IP=192.168.26.159
+During handling of the above exception, another exception occurred: ||SRC_IP=192.168.26.159
+Traceback (most recent call last): ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\socketserver.py", line 697, in process_request_thread ||SRC_IP=192.168.26.159
+    self.finish_request(request, client_address) ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\socketserver.py", line 362, in finish_request ||SRC_IP=192.168.26.159
+    self.RequestHandlerClass(request, client_address, self) ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\socketserver.py", line 766, in __init__ ||SRC_IP=192.168.26.159
+    self.handle() ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\serving.py", line 398, in handle ||SRC_IP=192.168.26.159
+    super().handle() ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\http\server.py", line 436, in handle ||SRC_IP=192.168.26.159
+    self.handle_one_request() ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~~~~~~~~~~^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\http\server.py", line 414, in handle_one_request ||SRC_IP=192.168.26.159
+    if not self.parse_request(): ||SRC_IP=192.168.26.159
+           ~~~~~~~~~~~~~~~~~~^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\http\server.py", line 309, in parse_request ||SRC_IP=192.168.26.159
+    self.send_error( ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~~^ ||SRC_IP=192.168.26.159
+        HTTPStatus.BAD_REQUEST, ||SRC_IP=192.168.26.159
+        ^^^^^^^^^^^^^^^^^^^^^^^ ||SRC_IP=192.168.26.159
+        "Bad request version (%r)" % version) ||SRC_IP=192.168.26.159
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\http\server.py", line 467, in send_error ||SRC_IP=192.168.26.159
+    self.send_response(code, message) ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\http\server.py", line 501, in send_response ||SRC_IP=192.168.26.159
+    self.log_request(code) ||SRC_IP=192.168.26.159
+    ~~~~~~~~~~~~~~~~^^^^^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\Desktop\machine1\app.py", line 26, in log_request ||SRC_IP=192.168.26.159
+    msg = f'{self.command} {self.path} {self.request_version} {code} {size}' ||SRC_IP=192.168.26.159
+                            ^^^^^^^^^ ||SRC_IP=192.168.26.159
+  File "C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\serving.py", line 420, in __getattr__ ||SRC_IP=192.168.26.159
+    return getattr(super(), name) ||SRC_IP=192.168.26.159
+AttributeError: 'super' object has no attribute 'path' ||SRC_IP=192.168.26.159
+---------------------------------------- ||SRC_IP=192.168.26.159
+ * Restarting with watchdog (windowsapi) ||SRC_IP=192.168.26.159
+ * Debugger is active! ||SRC_IP=192.168.26.159
+ * Debugger PIN: 339-603-659 ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:10] GET / HTTP/1.1 200 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:11] GET /static/auth.js HTTP/1.1 200 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:11] GET /static/styles.css HTTP/1.1 200 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:13] GET /favicon.ico HTTP/1.1 404 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:16] GET /api/login?username=shuvojitss&password=d HTTP/1.1 401 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:16] GET /api/login?username=shuvojitss&password=d HTTP/1.1 401 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:16] GET /api/login?username=shuvojitss&password=d HTTP/1.1 401 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:17] GET /api/login?username=shuvojitss&password=d HTTP/1.1 401 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:17] GET /api/login?username=shuvojitss&password=d HTTP/1.1 401 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:17] GET /api/login?username=shuvojitss&password=d HTTP/1.1 401 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:17] GET /api/login?username=shuvojitss&password=d HTTP/1.1 401 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:18] GET /api/login?username=shuvojitss&password=d HTTP/1.1 401 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:18] GET /api/login?username=shuvojitss&password=d HTTP/1.1 401 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:18] GET /api/login?username=shuvojitss&password=d HTTP/1.1 401 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:19] GET /api/login?username=shuvojitss&password=d HTTP/1.1 401 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:26] GET /api/login?username=shuvojitss&password=Shuvojit%4012345 HTTP/1.1 200 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:26] GET /main HTTP/1.1 200 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:26] GET /static/styles.css HTTP/1.1 304 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:26] GET /static/dashboard.js HTTP/1.1 200 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:26] GET /api/me HTTP/1.1 200 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:26] GET /api/profile HTTP/1.1 200 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:26] GET /api/tweets?q= HTTP/1.1 200 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:36] GET /api/tweets/3-1/comments/list HTTP/1.1 200 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:40] GET /api/logout HTTP/1.1 200 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:40] GET / HTTP/1.1 200 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:40] GET /static/styles.css HTTP/1.1 304 - ||SRC_IP=192.168.26.159
+192.168.26.159 - - [11/May/2026 12:32:40] GET /static/auth.js HTTP/1.1 304 - ||SRC_IP=192.168.26.159
