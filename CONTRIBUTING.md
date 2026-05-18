@@ -1,8 +1,8 @@
-# 🤝 Contributing to CyberDefenseX Ultra
+# 🤝 Contributing to CyberDefenseX
 
 > **"Every great system is built on the shoulders of contributors who cared."**
 
-First of all — **thank you** for taking the time to contribute to **CyberDefenseX Ultra**! Whether you're fixing a bug, proposing a feature, improving the docs, or writing tests — every contribution makes this platform stronger, smarter, and more secure.
+First of all — **thank you** for taking the time to contribute to **CyberDefenseX**! Whether you're fixing a bug, proposing a feature, improving the docs, or writing tests — every contribution makes this platform stronger, smarter, and more secure.
 
 This document is your complete guide to contributing effectively. Please read it carefully before submitting anything.
 
