@@ -24,7 +24,7 @@
     "overrides": {
       "@tootallnate/once": "3.0.1",
       "nth-check": "2.0.1",
-      "postcss": "8.5.14",
+      "postcss": "^8.5.14",
       "serialize-javascript": "7.0.5",
       "underscore": "1.13.8"
     }
