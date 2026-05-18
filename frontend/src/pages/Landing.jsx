@@ -259,7 +259,7 @@ export default function Landing() {
             {NAV_LINKS.map((l) => (
               <button key={l.label} onClick={() => scrollTo(l.target)} className="text-sm font-medium text-[#fbfbfb] hover:text-white bg-transparent border-none cursor-pointer">{l.label}</button>
             ))}
-            <a href="https://deepwiki.com/cyberhub2025/CyberDefenseX_Pro" target="_blank" rel="noopener noreferrer"
+            <a href="https://deepwiki.com/cyberhub2025/CyberDefenseX" target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-white border border-sky-500/40 transition-all duration-300 hover:border-sky-400/60 hover:shadow-[0_0_12px_rgba(14,165,233,0.3)]"
               style={{ background: "rgba(14,165,233,0.15)" }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-sky-400">
