@@ -18,7 +18,7 @@
 
 <br/>
 
-![Social Media (4)](https://github.com/user-attachments/assets/315a9f53-83f1-4a97-9c62-73e65308c705)
+![Social Media (4)](https://github.com/user-attachments/assets/f4aa8d63-168d-4ebd-88cc-98abfe25d8c8)
 
 ---
 <div align="center">
