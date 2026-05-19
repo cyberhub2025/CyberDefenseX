@@ -1,3 +1,4 @@
+
 # Research: Cryptographic Blockchain Based Tamper Detection
 
 ## Abstract
@@ -20,6 +21,7 @@ The blockchain system is implemented mainly in these backend files:
 | Recovery backup | `backend/Blockchain/leader/alerts_backup.xlsx` | Independent backup used only for Excel self-healing. |
 | Leader ledger | `backend/Blockchain/leader/blockchain.json` | Leader-side blockchain ledger. |
 | Worker ledger | `backend/Blockchain/worker/worker_blockchain.json` | Worker-side blockchain replica. |
+
 
 ## Source-Code Evidence
 
@@ -69,24 +71,60 @@ The proposed system avoids this repeated wide comparison by converting the Excel
 
 ## System Overview
 
+<img width="2752" height="1536" alt="Blockchain_research" src="https://github.com/user-attachments/assets/82812b96-de37-43bd-8040-27891eb0036c" />  
+
+## Rows to SHA-256, Leader, Workers, Backup, and Recovery WorkFlow
+
 ```mermaid
 flowchart TD
-    A["Excel source: excel2.xlsx"] --> B["broadcast.py reads new rows"]
-    B --> C["Leader /add_alert"]
-    C --> D["Normalize row payload"]
-    D --> E["Append row to alerts.xlsx"]
-    E --> F["Canonicalize Excel data"]
-    F --> G["SHA-256 excel_hash"]
-    G --> H["Create new block"]
-    H --> I["Save leader blockchain.json"]
-    H --> J["Broadcast block to workers"]
-    J --> K["Worker /sync_block"]
-    K --> L["Validate index, prev_hash, hash"]
-    L --> M["Save worker_blockchain.json"]
-    I --> N["/blockchain/verify"]
-    M --> N
-    N --> O["Dashboard and integrity notifications"]
+    A["Huge Excel input<br/>many rows and up to 500 columns"] --> B["Read and normalize rows"]
+    B --> C["Canonical Excel snapshot<br/>stable column order + stable values"]
+    C --> D["SHA-256 hashing"]
+    D --> E["Fixed-size excel_hash<br/>64 hex characters / 256 bits"]
+
+    E --> F["Create blockchain block"]
+    F --> G["Block fields<br/>index + timestamp + excel_hash + prev_hash + hash"]
+    G --> H["Leader ledger<br/>backend/Blockchain/leader/blockchain.json"]
+    C --> I["Leader Excel<br/>backend/Blockchain/leader/alerts.xlsx"]
+    I --> J["Independent backup<br/>alerts_backup.xlsx"]
+
+    H --> K["Broadcast block"]
+    K --> L["Worker 1<br/>worker_blockchain.json"]
+    K --> M["Worker 2<br/>worker_blockchain.json"]
+    K --> N["Worker 3...5<br/>worker_blockchain.json"]
+
+    O["Verification cycle"] --> P["Recompute SHA-256 from alerts.xlsx"]
+    P --> Q{"Current hash equals<br/>latest block excel_hash?"}
+    H --> R{"Blockchain links valid?<br/>prev_hash and block hash"}
+    L --> S{"Worker chain valid?"}
+    M --> S
+    N --> S
+
+    Q -->|Yes| T["Excel content is trusted"]
+    Q -->|No| U["Excel tampering detected"]
+    U --> V["Restore alerts.xlsx<br/>from alerts_backup.xlsx"]
+    V --> P
+
+    R -->|Yes| W["Leader JSON is trusted"]
+    R -->|No| X["Leader JSON tampered"]
+    X --> Y["Leader searches workers<br/>for integrity_ok chain"]
+    Y --> Z["Replace leader blockchain.json<br/>with valid worker chain"]
+    Z --> R
+
+    S -->|Yes| AA["Worker replica is trusted"]
+    S -->|No| AB["Worker JSON tampered"]
+    AB --> AC["Worker asks leader<br/>for /get_chain"]
+    AC --> AD["Worker validates chain<br/>then replaces local JSON"]
+    AD --> S
+
+    T --> AE["Dashboard shows healthy state"]
+    W --> AE
+    AA --> AE
 ```
+
+
+
+
 
 ## Excel Data to Cryptographic Value
 
@@ -540,6 +578,27 @@ This is cheaper than keeping many full database replicas. The backup is independ
 6. Self-healing no longer requires many full replicas. A single clean backup can restore Excel content, and a valid chain from one clean node can restore blockchain JSON.
 7. Alerts backup is independent and only used when Excel content must be restored.
 8. The leader-worker protocol supports circular recovery: workers heal from leader, and leader heals from any valid worker when its own JSON is broken.
+
+## Summary
+
+```mermaid
+flowchart TD
+    A["Excel source: excel2.xlsx"] --> B["broadcast.py reads new rows"]
+    B --> C["Leader /add_alert"]
+    C --> D["Normalize row payload"]
+    D --> E["Append row to alerts.xlsx"]
+    E --> F["Canonicalize Excel data"]
+    F --> G["SHA-256 excel_hash"]
+    G --> H["Create new block"]
+    H --> I["Save leader blockchain.json"]
+    H --> J["Broadcast block to workers"]
+    J --> K["Worker /sync_block"]
+    K --> L["Validate index, prev_hash, hash"]
+    L --> M["Save worker_blockchain.json"]
+    I --> N["/blockchain/verify"]
+    M --> N
+    N --> O["Dashboard and integrity notifications"]
+```
 
 ## Security Reasoning
 
