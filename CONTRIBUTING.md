@@ -9,7 +9,7 @@ This document is your complete guide to contributing effectively. Please read it
 [![GitHub Issues](https://img.shields.io/github/issues/cyberhub2025/CyberDefenseX_Ultra?style=for-the-badge&color=crimson)](https://github.com/cyberhub2025/CyberDefenseX_Ultra/issues)
 [![GitHub PRs](https://img.shields.io/github/issues-pr/cyberhub2025/CyberDefenseX_Ultra?style=for-the-badge&color=blueviolet)](https://github.com/cyberhub2025/CyberDefenseX_Ultra/pulls)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-[![Docs](https://deepwiki.com/badge.svg)](https://deepwiki.com/cyberhub2025/CyberDefenseX_Ultra)
+[![Docs](https://img.shields.io/badge/Docs-GitHub%20Pages-2ea44f?style=for-the-badge)](https://cyberhub2025.github.io/CyberDefenseX_Ultra/)
 
 ---
 
@@ -602,7 +602,7 @@ Which modules would be affected? (frontend / backend / blockchain / AI)
 
 If you discover a security vulnerability — especially in the blockchain integrity layer, authentication flows, or RLE engine — please follow **responsible disclosure**:
 
-1. **Email**: Contact the maintainers privately at the email on the GitHub profile
+1. **Email**: Contact the maintainers privately at **security@cyberdefensex.org**
 2. **Include**: Detailed description, reproduction steps, and potential impact
 3. **Wait**: Allow up to **72 hours** for an initial response before any public disclosure
 4. **Credit**: Responsible reporters will be credited in the security advisory
@@ -715,7 +715,7 @@ Still have questions? We're here to help:
 
 - 💬 **GitHub Discussions** — [Start a discussion](https://github.com/cyberhub2025/CyberDefenseX_Ultra/discussions)
 - 🐛 **GitHub Issues** — [Browse or open issues](https://github.com/cyberhub2025/CyberDefenseX_Ultra/issues)
-- 📖 **Deep Wiki** — [Full technical docs](https://deepwiki.com/cyberhub2025/CyberDefenseX_Ultra)
+- 📖 **Documentation** — [Full technical docs](https://github.com/cyberhub2025/CyberDefenseX_Ultra/tree/main/docs)
 - 🌐 **Live Demo** — [Try the platform](https://cyberdefensex.dpdns.org/)
 
 ---
