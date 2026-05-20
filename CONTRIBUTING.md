@@ -1,15 +1,15 @@
-# 🤝 Contributing to CyberDefenseX Ultra
+# 🤝 Contributing to CyberDefenseX
 
 > **"Every great system is built on the shoulders of contributors who cared."**
 
-First of all — **thank you** for taking the time to contribute to **CyberDefenseX Ultra**! Whether you're fixing a bug, proposing a feature, improving the docs, or writing tests — every contribution makes this platform stronger, smarter, and more secure.
+First of all — **thank you** for taking the time to contribute to **CyberDefenseX**! Whether you're fixing a bug, proposing a feature, improving the docs, or writing tests — every contribution makes this platform stronger, smarter, and more secure.
 
 This document is your complete guide to contributing effectively. Please read it carefully before submitting anything.
 
-[![GitHub Issues](https://img.shields.io/github/issues/cyberhub2025/CyberDefenseX_Ultra?style=for-the-badge&color=crimson)](https://github.com/cyberhub2025/CyberDefenseX_Ultra/issues)
-[![GitHub PRs](https://img.shields.io/github/issues-pr/cyberhub2025/CyberDefenseX_Ultra?style=for-the-badge&color=blueviolet)](https://github.com/cyberhub2025/CyberDefenseX_Ultra/pulls)
+[![GitHub Issues](https://img.shields.io/github/issues/cyberhub2025/CyberDefenseX?style=for-the-badge&color=crimson)](https://github.com/cyberhub2025/CyberDefenseX/issues)
+[![GitHub PRs](https://img.shields.io/github/issues-pr/cyberhub2025/CyberDefenseX?style=for-the-badge&color=blueviolet)](https://github.com/cyberhub2025/CyberDefenseX/pulls)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-[![Docs](https://deepwiki.com/badge.svg)](https://deepwiki.com/cyberhub2025/CyberDefenseX_Ultra)
+[![Docs](https://deepwiki.com/badge.svg)](https://deepwiki.com/cyberhub2025/CyberDefenseX)
 
 ---
 
@@ -72,7 +72,7 @@ There are many ways to contribute — you don't need to write code to make an im
 Before diving in, familiarize yourself with how the system is structured:
 
 ```
-CyberDefenseX_Ultra/
+CyberDefenseX/
 │
 ├── frontend/                    ← React 18 SPA (Tailwind + Vanilla CSS)
 │   └── src/
@@ -116,11 +116,11 @@ CyberDefenseX_Ultra/
 
 ```bash
 # Fork the repository on GitHub, then:
-git clone https://github.com/<your-username>/CyberDefenseX_Ultra.git
-cd CyberDefenseX_Ultra
+git clone https://github.com/<your-username>/CyberDefenseX.git
+cd CyberDefenseX
 
 # Add the upstream remote
-git remote add upstream https://github.com/cyberhub2025/CyberDefenseX_Ultra.git
+git remote add upstream https://github.com/cyberhub2025/CyberDefenseX.git
 ```
 
 ### 2. Backend Setup
@@ -526,7 +526,7 @@ Found something broken? Great catch! Please follow this process:
 
 ### 1. Search First
 
-Check [existing issues](https://github.com/cyberhub2025/CyberDefenseX_Ultra/issues) to avoid duplicates.
+Check [existing issues](https://github.com/cyberhub2025/CyberDefenseX/issues) to avoid duplicates.
 
 ### 2. Open a Bug Report
 
@@ -573,7 +573,7 @@ Attach relevant browser console errors or backend tracebacks.
 Have an idea that could make CyberDefenseX smarter or more powerful?
 
 1. **Check the [Roadmap](README.md#-roadmap)** — it might already be planned
-2. **Search [existing issues](https://github.com/cyberhub2025/CyberDefenseX_Ultra/issues)** for similar proposals
+2. **Search [existing issues](https://github.com/cyberhub2025/CyberDefenseX/issues)** for similar proposals
 3. **Open a Feature Request** using the template:
 
 ```markdown
@@ -713,9 +713,9 @@ A special thank you to our founding contributors who built the foundation:
 
 Still have questions? We're here to help:
 
-- 💬 **GitHub Discussions** — [Start a discussion](https://github.com/cyberhub2025/CyberDefenseX_Ultra/discussions)
-- 🐛 **GitHub Issues** — [Browse or open issues](https://github.com/cyberhub2025/CyberDefenseX_Ultra/issues)
-- 📖 **Deep Wiki** — [Full technical docs](https://deepwiki.com/cyberhub2025/CyberDefenseX_Ultra)
+- 💬 **GitHub Discussions** — [Start a discussion](https://github.com/cyberhub2025/CyberDefenseX/discussions)
+- 🐛 **GitHub Issues** — [Browse or open issues](https://github.com/cyberhub2025/CyberDefenseX/issues)
+- 📖 **Deep Wiki** — [Full technical docs](https://deepwiki.com/cyberhub2025/CyberDefenseX)
 - 🌐 **Live Demo** — [Try the platform](https://cyberdefensex.dpdns.org/)
 
 ---
@@ -726,6 +726,6 @@ Still have questions? We're here to help:
 
 *Autonomous. Transparent. Unbreakable.*
 
-[![Star this repo](https://img.shields.io/github/stars/cyberhub2025/CyberDefenseX_Ultra?style=social)](https://github.com/cyberhub2025/CyberDefenseX_Ultra)
+[![Star this repo](https://img.shields.io/github/stars/cyberhub2025/CyberDefenseX?style=social)](https://github.com/cyberhub2025/CyberDefenseX)
 
 </div>

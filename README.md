@@ -10,6 +10,7 @@
 <div align="center">
   
 ## 💥 **Autonomous. Transparent. Unbreakable.**
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/cyberhub2025/CyberDefenseX)
 
 > *A fully autonomous Cyber Defense System combining **real-time AI threat detection**, **blockchain-backed tamper-proof audit logs**, and **self-healing infrastructure** — delivering analyst-grade explainability and automated incident response.*
 
@@ -17,7 +18,7 @@
 
 <br/>
 
-![Social Media (4)](https://github.com/user-attachments/assets/315a9f53-83f1-4a97-9c62-73e65308c705)
+![Social Media (4)](https://github.com/user-attachments/assets/f4aa8d63-168d-4ebd-88cc-98abfe25d8c8)
 
 ---
 <div align="center">
