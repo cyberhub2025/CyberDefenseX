@@ -1,4 +1,5 @@
 import asyncio
+import json
 import os
 import re
 import sqlite3
@@ -123,6 +124,8 @@ async def lifespan(application: FastAPI):
                 alerts_cache.get_alerts()
             except Exception as exc:
                 logger.error("Cache refresh on event failed: %s", exc)
+            run_integrity_check("alerts.changed")
+            event_bus.emit_threadsafe("blockchain.changed", {"trigger": "alerts.changed"})
 
     invalidator_task = asyncio.create_task(_cache_invalidator())
 
@@ -130,12 +133,8 @@ async def lifespan(application: FastAPI):
     _leader_module.worker_manager.bootstrap()
     # RLE stream monitor (background thread)
     start_rle_thread()
-    # Broadcast watcher (background thread – waits briefly for server)
-    start_broadcast_thread()
     # File watcher — real-time xlsx change detection
     start_file_watcher_thread()
-    # Blockchain integrity checker (creates notifications on tamper)
-    start_integrity_checker_thread()
 
     logger.info("Application startup complete")
     yield
@@ -274,6 +273,9 @@ def start_file_watcher_thread() -> None:
 
 INTEGRITY_CHECK_INTERVAL = int(os.environ.get("INTEGRITY_CHECK_INTERVAL", "10"))  # seconds
 
+_integrity_lock = threading.Lock()
+_integrity_state = {"blockchain_valid": True, "excel_intact": True, "excel_matches_chain": True}
+
 
 def _create_notification(severity: str, message: str, source: str = "blockchain") -> None:
     """Insert a notification row into app_data.db and emit an SSE event."""
@@ -292,67 +294,75 @@ def _create_notification(severity: str, message: str, source: str = "blockchain"
     event_bus.emit_threadsafe("notifications.new", {"severity": severity, "message": message})
 
 
+def run_integrity_check(trigger: str = "event") -> None:
+    """Run integrity checks without polling or HTTP requests."""
+    try:
+        data = _leader_module.verify()
+    except Exception as exc:
+        logger.debug("Integrity check failed (%s): %s", trigger, exc)
+        return
+
+    blockchain_valid = data.get("blockchain_valid", True)
+    excel_intact = data.get("excel_intact", True)
+    excel_matches = data.get("excel_matches_chain", True)
+    integrity_ok = data.get("integrity_ok", True)
+
+    with _integrity_lock:
+        last_state = dict(_integrity_state)
+
+        if not blockchain_valid and last_state.get("blockchain_valid", True):
+            _create_notification(
+                "critical",
+                "Blockchain integrity violation detected — chain validation failed. Possible tampering.",
+                "blockchain",
+            )
+
+        if not excel_intact and last_state.get("excel_intact", True):
+            _create_notification(
+                "critical",
+                "Alert data (alerts.xlsx) has been tampered with. The file does not match the trusted backup.",
+                "blockchain",
+            )
+
+        if not excel_matches and last_state.get("excel_matches_chain", True):
+            _create_notification(
+                "high",
+                "Excel file hash does not match the latest blockchain block. Data may have been modified outside the system.",
+                "blockchain",
+            )
+
+        if integrity_ok and (
+            not last_state.get("blockchain_valid", True) or not last_state.get("excel_intact", True)
+        ):
+            _create_notification(
+                "success",
+                "Blockchain integrity has been restored. System is operating normally.",
+                "blockchain",
+            )
+
+        _integrity_state.update(
+            {
+                "blockchain_valid": blockchain_valid,
+                "excel_intact": excel_intact,
+                "excel_matches_chain": excel_matches,
+            }
+        )
+
+    event_bus.emit_threadsafe(
+        "blockchain.changed",
+        {"trigger": trigger, "integrity": data},
+    )
+
+
 def _run_integrity_checker() -> None:
     """Periodically verify blockchain integrity and excel tampering.
     When an issue is detected, a notification is created."""
-    import requests as _req
-
     # Wait for server startup
     time.sleep(8)
     logger.info("Integrity checker started — polling every %ds", INTEGRITY_CHECK_INTERVAL)
 
-    last_state = {"blockchain_valid": True, "excel_intact": True, "excel_matches_chain": True}
-
     while not _shutdown_event.is_set():
-        try:
-            resp = _req.get(f"{BACKEND_URL}/blockchain/verify", timeout=5)
-            if resp.status_code == 200:
-                data = resp.json()
-                blockchain_valid = data.get("blockchain_valid", True)
-                excel_intact = data.get("excel_intact", True)
-                excel_matches = data.get("excel_matches_chain", True)
-                integrity_ok = data.get("integrity_ok", True)
-
-                # Blockchain chain validation failed
-                if not blockchain_valid and last_state["blockchain_valid"]:
-                    _create_notification(
-                        "critical",
-                        "Blockchain integrity violation detected — chain validation failed. Possible tampering.",
-                        "blockchain",
-                    )
-
-                # Excel file was tampered
-                if not excel_intact and last_state["excel_intact"]:
-                    _create_notification(
-                        "critical",
-                        "Alert data (alerts.xlsx) has been tampered with. The file does not match the trusted backup.",
-                        "blockchain",
-                    )
-
-                # Excel doesn't match latest block hash
-                if not excel_matches and last_state["excel_matches_chain"]:
-                    _create_notification(
-                        "high",
-                        "Excel file hash does not match the latest blockchain block. Data may have been modified outside the system.",
-                        "blockchain",
-                    )
-
-                # Recovery detected
-                if integrity_ok and (not last_state["blockchain_valid"] or not last_state["excel_intact"]):
-                    _create_notification(
-                        "success",
-                        "Blockchain integrity has been restored. System is operating normally.",
-                        "blockchain",
-                    )
-
-                last_state = {
-                    "blockchain_valid": blockchain_valid,
-                    "excel_intact": excel_intact,
-                    "excel_matches_chain": excel_matches,
-                }
-        except Exception as exc:
-            logger.debug("Integrity checker poll error: %s", exc)
-
+        run_integrity_check("integrity_poll")
         _shutdown_event.wait(INTEGRITY_CHECK_INTERVAL)
 
 
@@ -634,8 +644,12 @@ def load_alerts_from_excel() -> List[Dict[str, str]]:
 
             threat_id_value = pick_value(raw, id_keys)
             threat_id = format_cell_value(threat_id_value)
-            if not threat_id:
-                threat_id = f"ALERT-{row_index - 1:04d}"
+            if threat_id:
+                match = re.match(r"^alert[-_ ]?0*(\d+)$", threat_id, re.IGNORECASE)
+                if match:
+                    threat_id = match.group(1)
+            else:
+                threat_id = str(row_index - 1)
 
             alert = {
                 "id": threat_id,
@@ -1568,7 +1582,7 @@ async def api_github_callback(request: Request):
 @app.get("/api/alerts")
 async def api_get_alerts():
     try:
-        alerts = alerts_cache.get_alerts()
+        payload = _load_alerts_payload()
     except FileNotFoundError:
         return JSONResponse(
             {"message": f"Alerts file not found at {ALERTS_XLSX_PATH}."},
@@ -1577,19 +1591,13 @@ async def api_get_alerts():
     except Exception as exc:
         return JSONResponse({"message": str(exc)}, status_code=500)
 
-    return JSONResponse(
-        {
-            "alerts": alerts,
-            "count": len(alerts),
-            "updatedAt": datetime.utcnow().isoformat() + "Z",
-        }
-    )
+    return JSONResponse(payload)
 
 
 @app.get("/api/overview")
 async def api_get_overview():
     try:
-        alerts = alerts_cache.get_alerts()
+        payload = _load_overview_payload()
     except FileNotFoundError:
         return JSONResponse(
             {"message": f"Alerts file not found at {ALERTS_XLSX_PATH}."},
@@ -1598,12 +1606,6 @@ async def api_get_overview():
     except Exception as exc:
         return JSONResponse({"message": str(exc)}, status_code=500)
 
-    try:
-        payload = alerts_cache.get_overview()
-    except Exception:
-        payload = build_overview_payload(alerts)
-    payload["count"] = len(alerts)
-    payload["updatedAt"] = datetime.utcnow().isoformat() + "Z"
     return JSONResponse(payload)
 
 
@@ -1692,33 +1694,7 @@ async def api_update_alert_status(threat_id: str, request: Request):
 @app.get("/api/notifications")
 async def api_get_notifications():
     """Return the latest notifications (most recent first)."""
-    conn = get_app_data_db_connection()
-    try:
-        rows = conn.execute(
-            """
-            SELECT id, severity, message, source, created_at, read
-            FROM notifications
-            ORDER BY created_at DESC
-            LIMIT 50
-            """
-        ).fetchall()
-    finally:
-        conn.close()
-
-    notifications = [
-        {
-            "id": row["id"],
-            "severity": row["severity"],
-            "message": row["message"],
-            "source": row["source"],
-            "time": to_relative_time(parse_detected_at(row["created_at"])),
-            "createdAt": row["created_at"],
-            "read": bool(row["read"]),
-        }
-        for row in rows
-    ]
-
-    return JSONResponse({"notifications": notifications, "count": len(notifications)})
+    return JSONResponse(_load_notifications_payload())
 
 
 @app.delete("/api/notifications/{notification_id}")
@@ -2016,11 +1992,39 @@ def get_senders_db_connection() -> sqlite3.Connection:
     return get_app_data_db_connection()
 
 
-@app.get("/api/assets")
-async def api_get_assets():
-    """Return log-sender data from senders.db as asset cards."""
+def _load_notifications_payload() -> Dict[str, Any]:
+    conn = get_app_data_db_connection()
+    try:
+        rows = conn.execute(
+            """
+            SELECT id, severity, message, source, created_at, read
+            FROM notifications
+            ORDER BY created_at DESC
+            LIMIT 50
+            """
+        ).fetchall()
+    finally:
+        conn.close()
+
+    notifications = [
+        {
+            "id": row["id"],
+            "severity": row["severity"],
+            "message": row["message"],
+            "source": row["source"],
+            "time": to_relative_time(parse_detected_at(row["created_at"])),
+            "createdAt": row["created_at"],
+            "read": bool(row["read"]),
+        }
+        for row in rows
+    ]
+
+    return {"notifications": notifications, "count": len(notifications)}
+
+
+def _load_assets_payload() -> Dict[str, Any]:
     if not os.path.exists(APP_DATA_DB_PATH):
-        return JSONResponse([])
+        return {"assets": [], "count": 0}
 
     conn = get_senders_db_connection()
     try:
@@ -2037,15 +2041,14 @@ async def api_get_assets():
         first_seen = row["first_seen"]
         last_seen = row["last_seen"]
 
-        # Derive a friendly status from recency
         last_dt = parse_detected_at(last_seen)
         if last_dt:
             age_seconds = (datetime.utcnow() - last_dt).total_seconds()
-            if age_seconds < 300:       # active within 5 min
+            if age_seconds < 300:
                 status = "healthy"
-            elif age_seconds < 3600:    # active within 1 hour
+            elif age_seconds < 3600:
                 status = "warning"
-            elif age_seconds < 86400:   # active within 1 day
+            elif age_seconds < 86400:
                 status = "at-risk"
             else:
                 status = "offline"
@@ -2054,10 +2057,6 @@ async def api_get_assets():
             status = "offline"
             last_seen_relative = "Unknown"
 
-        first_dt = parse_detected_at(first_seen)
-        first_seen_relative = to_relative_time(first_dt) if first_dt else "Unknown"
-
-        # Decide criticality based on volume
         if total_logs > 1000:
             criticality = "critical"
         elif total_logs > 500:
@@ -2067,19 +2066,56 @@ async def api_get_assets():
         else:
             criticality = "low"
 
-        assets.append({
-            "id": f"SND-{idx:03d}",
-            "name": f"Log Sender {ip}",
-            "type": "server",
-            "ip": ip,
-            "os": f"{total_logs} logs received",
-            "status": status,
-            "lastScan": last_seen_relative,
-            "vulnerabilities": total_logs,
-            "criticality": criticality,
-        })
+        assets.append(
+            {
+                "id": f"SND-{idx:03d}",
+                "name": f"Log Sender {ip}",
+                "type": "server",
+                "ip": ip,
+                "os": f"{total_logs} logs received",
+                "status": status,
+                "lastScan": last_seen_relative,
+                "vulnerabilities": total_logs,
+                "criticality": criticality,
+            }
+        )
 
-    return JSONResponse(assets)
+    return {"assets": assets, "count": len(assets)}
+
+
+def _load_alerts_payload() -> Dict[str, Any]:
+    alerts = alerts_cache.get_alerts()
+    return {
+        "alerts": alerts,
+        "count": len(alerts),
+        "updatedAt": datetime.utcnow().isoformat() + "Z",
+    }
+
+
+def _load_overview_payload() -> Dict[str, Any]:
+    alerts = alerts_cache.get_alerts()
+    try:
+        payload = alerts_cache.get_overview()
+    except Exception:
+        payload = build_overview_payload(alerts)
+    payload["count"] = len(alerts)
+    payload["updatedAt"] = datetime.utcnow().isoformat() + "Z"
+    return payload
+
+
+def _load_blockchain_payload() -> Optional[Dict[str, Any]]:
+    try:
+        return _leader_module.api_dashboard()
+    except Exception as exc:
+        logger.debug("Failed to build blockchain payload: %s", exc)
+        return None
+
+
+@app.get("/api/assets")
+async def api_get_assets():
+    """Return log-sender data from senders.db as asset cards."""
+    payload = _load_assets_payload()
+    return JSONResponse(payload["assets"])
 
 
 # ---------------------------------------------------------------------------
@@ -2333,16 +2369,62 @@ async def sse_event_stream(request: Request):
     """Server-Sent Events endpoint. Frontend connects once and receives
     typed events (alerts.changed, logs.received, blockchain.synced)
     instead of polling."""
+    def _normalize_event_data(raw: Any) -> Dict[str, Any]:
+        if raw is None:
+            return {}
+        if isinstance(raw, dict):
+            return dict(raw)
+        return {"value": raw}
+
     async def _generator():
         async for payload in event_bus.subscribe("*"):
             if await request.is_disconnected():
                 break
+            event_type = payload.get("event", "message")
+            data = _normalize_event_data(payload.get("data"))
+
+            if event_type == "alerts.changed":
+                try:
+                    data["alerts"] = _load_alerts_payload()
+                    data["overview"] = _load_overview_payload()
+                    data["assets"] = _load_assets_payload()
+                except FileNotFoundError:
+                    pass
+                except Exception as exc:
+                    logger.debug("SSE enrich alerts failed: %s", exc)
+            elif event_type == "notifications.new":
+                try:
+                    data["notifications"] = _load_notifications_payload()
+                except Exception as exc:
+                    logger.debug("SSE enrich notifications failed: %s", exc)
+            elif event_type == "logs.received":
+                try:
+                    data["assets"] = _load_assets_payload()
+                except Exception as exc:
+                    logger.debug("SSE enrich assets failed: %s", exc)
+            elif event_type == "blockchain.changed":
+                blockchain_payload = _load_blockchain_payload()
+                if blockchain_payload is not None:
+                    data["blockchain"] = blockchain_payload
+
             yield {
-                "event": payload["event"],
-                "data": payload.get("data") or "",
+                "event": event_type,
+                "data": json.dumps(data),
             }
 
     return EventSourceResponse(_generator())
+
+
+@app.get("/health")
+async def health_check():
+    """Railway health-check probe — must return 200."""
+    return JSONResponse(
+        {
+            "status": "ok",
+            "service": "CyberDefenseX Backend",
+            "version": "1.0.0",
+        }
+    )
 
 
 if __name__ == "__main__":

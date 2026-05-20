@@ -1,0 +1,32 @@
+# This .dockerignore lives at REPO ROOT (same level as railway.toml)
+# Railway uses the repo root as the Docker build context
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/*.egg-info/
+
+# Environment secrets — NEVER bake into image
+backend/.env
+backend/.env.*
+
+# Runtime files (ephemeral, recreated on startup)
+backend/*.db
+backend/*.db-journal
+backend/*.log
+backend/.rle_state.json
+
+# Generated PDFs (not needed in image, generated at runtime)
+backend/reports/*.pdf
+
+# Frontend (not part of this service)
+frontend/
+
+# Dev artifacts
+Agent/
+assets/
+*.md
+.git/
+.github/

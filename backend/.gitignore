@@ -1,4 +1,29 @@
+# Environment - never commit secrets
 .env
 .env.*
-users.db
+.env.local
+.env.production
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pycache
+*.egg-info/
+
+# Runtime databases (ephemeral on Railway — use Supabase)
 *.db
+*.db-journal
+
+# Logs
+*.log
+.rle_state.json
+
+# Reports (generated at runtime)
+reports/*.pdf
+
+# Virtual environments
+venv/
+.venv/
+env/
