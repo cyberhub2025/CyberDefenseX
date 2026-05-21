@@ -57,8 +57,6 @@
 ## 🏗️ System Architecture
 
 <img width="2752" height="1400" alt="end-to-end_architecture" src="https://github.com/user-attachments/assets/e8366486-685c-4eed-96f5-f6c91cfce662" />
-<div align="center">
-
 
 <br/>
 
@@ -355,55 +353,46 @@ flowchart TD
 
 ## 👨‍💻 Core Contributors
 
-<div align="center">
-
 <table>
   <tr>
-    <td align="center" width="220px">
+    <td align="center" width="300px">
       <a href="https://github.com/shuvojitss">
-        <img src="https://github.com/shuvojitss.png" width="90" style="border-radius:50%;border:3px solid #00ffff" alt="Shuvojit"/>
-        <br /><b>Shuvojit Samanta</b>
+        <img src="https://github.com/shuvojitss.png" width="100;" alt="Shuvojit"/>
+        <br />
+        <b>Shuvojit Samanta</b>
       </a>
       <br />
-      <img src="https://img.shields.io/badge/Project%20Architect-00ffff?style=flat-square&labelColor=0f0c29"/>
-      <br/>
-      <img src="https://img.shields.io/badge/AI%2FML%20Engineer-c792ea?style=flat-square&labelColor=302b63"/>
+      System Architect & Blockchain Developer
     </td>
-    <td align="center" width="220px">
+    <td align="center" width="300px">
       <a href="https://github.com/gitadak">
-        <img src="https://github.com/gitadak.png" width="90" style="border-radius:50%;border:3px solid #f7931a" alt="Soumyadeep Adak"/>
-        <br /><b>Soumyadeep Adak</b>
+        <img src="https://github.com/gitadak.png" width="100;" alt="Soumyadeep Adak"/>
+        <br />
+        <b>Soumyadeep Adak</b>
       </a>
       <br />
-      <img src="https://img.shields.io/badge/Blockchain%20Developer-f7931a?style=flat-square&labelColor=1a1a2e"/>
-      <br/>
-      <img src="https://img.shields.io/badge/Smart%20Contracts-39ff14?style=flat-square&labelColor=0f3460"/>
+      Backend developer and Cybersecurity Specialist 
     </td>
-    <td align="center" width="220px">
+    <td align="center" width="300px">
       <a href="https://github.com/Piyush-Sarkar">
-        <img src="https://github.com/Piyush-Sarkar.png" width="90" style="border-radius:50%;border:3px solid #ff6bcb" alt="Piyush Sarkar"/>
-        <br /><b>Piyush Sarkar</b>
+        <img src="https://github.com/Piyush-Sarkar.png" width="100;" alt="Piyush Sarkar"/>
+        <br />
+        <b>Piyush Sarkar</b>
       </a>
       <br />
-      <img src="https://img.shields.io/badge/Researcher-ff6bcb?style=flat-square&labelColor=24243e"/>
-      <br/>
-      <img src="https://img.shields.io/badge/Frontend%20Designer-c792ea?style=flat-square&labelColor=302b63"/>
+      Researcher & Frontend Designer
     </td>
-    <td align="center" width="220px">
+    <td align="center" width="300px">
       <a href="https://github.com/imon005">
-        <img src="https://github.com/imon005.png" width="90" style="border-radius:50%;border:3px solid #ff4444" alt="Imon Purkait"/>
-        <br /><b>Imon Purkait</b>
+        <img src="https://github.com/imon005.png" width="100;" alt="Imon Purkait"/>
+        <br />
+        <b>Imon Purkait</b>
       </a>
       <br />
-      <img src="https://img.shields.io/badge/Ethical%20Hacker-ff4444?style=flat-square&labelColor=1a1a2e"/>
-      <br/>
-      <img src="https://img.shields.io/badge/Cybersecurity%20Specialist-39ff14?style=flat-square&labelColor=0f3460"/>
+      Ethical Hacker & Technical Writer
     </td>
   </tr>
 </table>
-
-</div>
-
 ---
 
 ## 🤝 Contributing
