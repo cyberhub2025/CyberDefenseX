@@ -148,7 +148,7 @@
 ## 📂 Project Structure
 
 ```
-🛡️ CyberDefenseX_Ultra/
+🛡️ CyberDefenseX/
 │
 ├── 🔧 .github/
 │   └── workflows/
