@@ -1,4 +1,4 @@
-<div align="center">
+
 <!-- LIVE DEMO & DOCS BADGES -->
   
 [![Live Demo](https://img.shields.io/badge/🌐%20Live%20Demo-CyberDefenseX-00ffff?style=for-the-badge&logo=github&logoColor=black&labelColor=0f0c29)](https://cyberdefensex.dpdns.org/)
@@ -56,9 +56,9 @@
 
 ## 🏗️ System Architecture
 
+<img width="2752" height="1400" alt="end-to-end_architecture" src="https://github.com/user-attachments/assets/e8366486-685c-4eed-96f5-f6c91cfce662" />
 <div align="center">
-<img width="1747" height="930" alt="System Architecture" src="https://github.com/user-attachments/assets/d3b6d64d-88e1-4839-a6f1-c4153e23ff13" />
-</div>
+
 
 <br/>
 
