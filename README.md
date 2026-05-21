@@ -101,6 +101,8 @@
 | 👤 **Session Hijacking** | `localStorage`/`sessionStorage` access via XSS payloads | 🔴 Critical |
 | 🍪 **Cookie Stealing** | `document.cookie` exfiltration attempts | 🟠 High |
 | 🎣 **Credential Harvesting** | Password field injection via XSS | 🔴 Critical |
+| 🎣 **Keylogger** | Examining the keystrokes recorded | 🔴 Critical |
+
 
 </div>
 
