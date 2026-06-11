@@ -6,6 +6,20 @@
             "port": 5001,
             "folder": "worker",
             "removable": false
+        },
+        {
+            "id": 2,
+            "name": "worker 2",
+            "port": 5002,
+            "folder": "worker2",
+            "removable": true
+        },
+        {
+            "id": 3,
+            "name": "worker 3",
+            "port": 5003,
+            "folder": "worker3",
+            "removable": true
         }
     ]
 }

@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Clean Excel SHA-256 Blockchain Workflow</title>
+  <desc id="desc">A clean infographic showing Excel rows converted to a SHA-256 digest, committed to a leader blockchain, replicated to workers, backed up, verified, and healed after tampering.</desc>
+  <defs>
+    <marker id="arrowDark" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#1f2937"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#059669"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#dc2626"/>
+    </marker>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="13" flood-color="#0f172a" flood-opacity="0.10"/>
+    </filter>
+    <style>
+      .page { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1.5; }
+      .title { font: 800 42px Arial, Helvetica, sans-serif; fill: #0f172a; letter-spacing: 0; }
+      .subtitle { font: 500 20px Arial, Helvetica, sans-serif; fill: #475569; letter-spacing: 0; }
+      .card { fill: #ffffff; stroke: #dbe3ef; stroke-width: 1.6; filter: url(#softShadow); }
+      .cardTitle { font: 800 22px Arial, Helvetica, sans-serif; fill: #111827; letter-spacing: 0; }
+      .cardText { font: 500 16px Arial, Helvetica, sans-serif; fill: #475569; letter-spacing: 0; }
+      .smallText { font: 700 13px Arial, Helvetica, sans-serif; fill: #64748b; letter-spacing: 0; }
+      .mono { font: 700 15px Consolas, "Courier New", monospace; fill: #334155; letter-spacing: 0; }
+      .tag { fill: #f1f5f9; stroke: #cbd5e1; stroke-width: 1; }
+      .tagText { font: 800 12px Arial, Helvetica, sans-serif; fill: #475569; letter-spacing: 0; }
+      .arrow { fill: none; stroke: #1f2937; stroke-width: 3.2; marker-end: url(#arrowDark); }
+      .arrowBlue { fill: none; stroke: #2563eb; stroke-width: 3.2; marker-end: url(#arrowBlue); }
+      .arrowGreen { fill: none; stroke: #059669; stroke-width: 3.2; marker-end: url(#arrowGreen); }
+      .arrowRed { fill: none; stroke: #dc2626; stroke-width: 3.2; marker-end: url(#arrowRed); }
+      .dash { stroke-dasharray: 10 10; }
+      .iconCircle { stroke-width: 0; }
+      .iconStroke { fill: none; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </defs>
+
+  <rect class="page" width="1600" height="1000"/>
+  <rect class="panel" x="48" y="42" width="1504" height="916" rx="34"/>
+
+  <text class="title" x="800" y="100" text-anchor="middle">Excel Data to Blockchain Tamper Detection</text>
+  <text class="subtitle" x="800" y="133" text-anchor="middle">Huge Excel rows become one SHA-256 value, then leader and workers use hash links to detect and heal tampering.</text>
+
+  <!-- Main flow cards -->
+  <g id="excel-card">
+    <rect class="card" x="80" y="190" width="240" height="218" rx="22"/>
+    <circle class="iconCircle" cx="200" cy="248" r="36" fill="#dcfce7"/>
+    <rect x="168" y="224" width="64" height="48" rx="5" fill="#ffffff" stroke="#16a34a" stroke-width="4"/>
+    <line x1="168" y1="240" x2="232" y2="240" stroke="#16a34a" stroke-width="2"/>
+    <line x1="168" y1="256" x2="232" y2="256" stroke="#16a34a" stroke-width="2"/>
+    <line x1="189" y1="224" x2="189" y2="272" stroke="#16a34a" stroke-width="2"/>
+    <line x1="211" y1="224" x2="211" y2="272" stroke="#16a34a" stroke-width="2"/>
+    <text class="cardTitle" x="200" y="316" text-anchor="middle">Huge Excel Rows</text>
+    <text class="cardText" x="200" y="344" text-anchor="middle">100k+ rows</text>
+    <text class="cardText" x="200" y="368" text-anchor="middle">up to 500 columns</text>
+    <rect class="tag" x="132" y="382" width="136" height="26" rx="13"/>
+    <text class="tagText" x="200" y="400" text-anchor="middle">alerts.xlsx</text>
+  </g>
+
+  <g id="canonical-card">
+    <rect class="card" x="370" y="190" width="240" height="218" rx="22"/>
+    <circle class="iconCircle" cx="490" cy="248" r="36" fill="#e0f2fe"/>
+    <path class="iconStroke" d="M466 228 h48 M466 248 h38 M466 268 h56" stroke="#0284c7"/>
+    <path class="iconStroke" d="M454 224 l-12 12 l12 12 M454 248 l-12 12 l12 12" stroke="#0284c7"/>
+    <text class="cardTitle" x="490" y="316" text-anchor="middle">Normalize</text>
+    <text class="cardText" x="490" y="344" text-anchor="middle">stable values</text>
+    <text class="cardText" x="490" y="368" text-anchor="middle">sorted columns</text>
+    <rect class="tag" x="409" y="382" width="162" height="26" rx="13"/>
+    <text class="tagText" x="490" y="400" text-anchor="middle">canonical snapshot</text>
+  </g>
+
+  <g id="hash-card">
+    <rect class="card" x="660" y="190" width="240" height="218" rx="22"/>
+    <circle class="iconCircle" cx="780" cy="248" r="36" fill="#ede9fe"/>
+    <text x="780" y="260" text-anchor="middle" font-family="Consolas, Courier New, monospace" font-size="42" font-weight="800" fill="#7c3aed">#</text>
+    <text class="cardTitle" x="780" y="316" text-anchor="middle">SHA-256</text>
+    <text class="cardText" x="780" y="344" text-anchor="middle">compress full data</text>
+    <text class="cardText" x="780" y="368" text-anchor="middle">into fixed digest</text>
+    <rect class="tag" x="684" y="382" width="192" height="26" rx="13"/>
+    <text class="tagText" x="780" y="400" text-anchor="middle">64 hex chars / 256 bits</text>
+  </g>
+
+  <g id="block-card">
+    <rect class="card" x="950" y="190" width="240" height="218" rx="22"/>
+    <circle class="iconCircle" cx="1070" cy="248" r="36" fill="#dbeafe"/>
+    <rect x="1040" y="230" width="52" height="38" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="4"/>
+    <rect x="1052" y="218" width="52" height="38" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="4"/>
+    <path d="M1048 276 h44" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+    <text class="cardTitle" x="1070" y="316" text-anchor="middle">Create Block</text>
+    <text class="cardText" x="1070" y="344" text-anchor="middle">excel_hash</text>
+    <text class="cardText" x="1070" y="368" text-anchor="middle">prev_hash + hash</text>
+    <rect class="tag" x="991" y="382" width="158" height="26" rx="13"/>
+    <text class="tagText" x="1070" y="400" text-anchor="middle">linked history</text>
+  </g>
+
+  <g id="leader-card">
+    <rect class="card" x="1240" y="190" width="280" height="218" rx="22"/>
+    <circle class="iconCircle" cx="1380" cy="248" r="36" fill="#fef3c7"/>
+    <rect x="1345" y="237" width="70" height="45" rx="7" fill="#ffffff" stroke="#d97706" stroke-width="4"/>
+    <path d="M1354 232 v-16 l17 16 l15-21 l15 21 l17-16 v16" fill="#fde68a" stroke="#d97706" stroke-width="4" stroke-linejoin="round"/>
+    <text class="cardTitle" x="1380" y="316" text-anchor="middle">Leader Ledger</text>
+    <text class="cardText" x="1380" y="344" text-anchor="middle">trusted blockchain JSON</text>
+    <text class="mono" x="1380" y="369" text-anchor="middle">blockchain.json</text>
+    <rect class="tag" x="1293" y="382" width="174" height="26" rx="13"/>
+    <text class="tagText" x="1380" y="400" text-anchor="middle">/blockchain/verify</text>
+  </g>
+
+  <!-- Main flow arrows -->
+  <path class="arrow" d="M320 299 H370"/>
+  <path class="arrow" d="M610 299 H660"/>
+  <path class="arrow" d="M900 299 H950"/>
+  <path class="arrow" d="M1190 299 H1240"/>
+
+  <!-- Backup card -->
+  <g id="backup-card">
+    <rect class="card" x="80" y="510" width="300" height="180" rx="22"/>
+    <circle class="iconCircle" cx="146" cy="570" r="34" fill="#fce7f3"/>
+    <ellipse cx="146" cy="552" rx="34" ry="12" fill="#ffffff" stroke="#db2777" stroke-width="4"/>
+    <path d="M112 552 v44 c0 7 15 12 34 12 s34-5 34-12 v-44" fill="#ffffff" stroke="#db2777" stroke-width="4"/>
+    <ellipse cx="146" cy="596" rx="34" ry="12" fill="#fce7f3" stroke="#db2777" stroke-width="4"/>
+    <text class="cardTitle" x="250" y="555" text-anchor="middle">Backup Excel</text>
+    <text class="cardText" x="250" y="584" text-anchor="middle">used only for</text>
+    <text class="cardText" x="250" y="608" text-anchor="middle">self-healing</text>
+    <text class="mono" x="250" y="642" text-anchor="middle">alerts_backup.xlsx</text>
+  </g>
+
+  <!-- Verification card -->
+  <g id="verify-card">
+    <rect class="card" x="430" y="510" width="440" height="180" rx="22"/>
+    <circle class="iconCircle" cx="500" cy="570" r="34" fill="#ecfeff"/>
+    <path d="M481 570 l13 14 l28-34" fill="none" stroke="#0891b2" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="cardTitle" x="668" y="550" text-anchor="middle">Verification Cycle</text>
+    <text class="cardText" x="668" y="580" text-anchor="middle">recompute SHA-256 from Excel</text>
+    <text class="cardText" x="668" y="606" text-anchor="middle">compare latest block excel_hash</text>
+    <text class="cardText" x="668" y="632" text-anchor="middle">validate every prev_hash link</text>
+    <rect class="tag" x="568" y="650" width="200" height="26" rx="13"/>
+    <text class="tagText" x="668" y="668" text-anchor="middle">O(1) hash comparison</text>
+  </g>
+
+  <!-- Worker card -->
+  <g id="workers-card">
+    <rect class="card" x="930" y="510" width="590" height="180" rx="22"/>
+    <circle class="iconCircle" cx="1002" cy="570" r="34" fill="#f1f5f9"/>
+    <rect x="973" y="545" width="58" height="18" rx="4" fill="#ffffff" stroke="#475569" stroke-width="4"/>
+    <rect x="973" y="569" width="58" height="18" rx="4" fill="#ffffff" stroke="#475569" stroke-width="4"/>
+    <rect x="973" y="593" width="58" height="18" rx="4" fill="#ffffff" stroke="#475569" stroke-width="4"/>
+    <text class="cardTitle" x="1225" y="550" text-anchor="middle">Replica Workers</text>
+    <text class="cardText" x="1225" y="580" text-anchor="middle">each worker stores compact blockchain JSON</text>
+    <text class="mono" x="1225" y="606" text-anchor="middle">worker_blockchain.json</text>
+    <g>
+      <rect x="1086" y="630" width="82" height="34" rx="10" fill="#f8fafc" stroke="#94a3b8"/>
+      <rect x="1184" y="630" width="82" height="34" rx="10" fill="#f8fafc" stroke="#94a3b8"/>
+      <rect x="1282" y="630" width="82" height="34" rx="10" fill="#f8fafc" stroke="#94a3b8"/>
+      <rect x="1380" y="630" width="82" height="34" rx="10" fill="#f8fafc" stroke="#94a3b8"/>
+      <text class="tagText" x="1127" y="652" text-anchor="middle">W1</text>
+      <text class="tagText" x="1225" y="652" text-anchor="middle">W2</text>
+      <text class="tagText" x="1323" y="652" text-anchor="middle">W3</text>
+      <text class="tagText" x="1421" y="652" text-anchor="middle">W4-W5</text>
+    </g>
+  </g>
+
+  <!-- Secondary arrows -->
+  <path class="arrowGreen dash" d="M200 408 V510"/>
+  <text class="smallText" x="229" y="466">backup copy</text>
+  <path class="arrowGreen dash" d="M380 600 C462 600 418 600 430 600"/>
+  <path class="arrowBlue" d="M1380 408 V510"/>
+  <text class="smallText" x="1406" y="466">broadcast blocks</text>
+  <path class="arrowBlue dash" d="M930 600 H870"/>
+  <path class="arrowBlue dash" d="M1240 408 C1110 455 900 471 760 510"/>
+
+  <!-- Recovery band -->
+  <rect x="80" y="760" width="1440" height="142" rx="26" fill="#0f172a"/>
+  <text x="110" y="810" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800" fill="#ffffff">When tampering happens</text>
+  <text x="110" y="842" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="500" fill="#cbd5e1">The system checks fixed-size hashes and neighbor links instead of comparing every Excel replica cell-by-cell.</text>
+
+  <g id="tamper-step">
+    <circle cx="680" cy="832" r="34" fill="#fee2e2"/>
+    <path d="M680 808 l-25 44 h50 z" fill="#ffffff" stroke="#dc2626" stroke-width="4" stroke-linejoin="round"/>
+    <line x1="680" y1="822" x2="680" y2="840" stroke="#dc2626" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="680" cy="849" r="3.5" fill="#dc2626"/>
+    <text x="746" y="825" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="800" fill="#ffffff">Mismatch</text>
+    <text x="746" y="853" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#cbd5e1">Excel hash or prev_hash fails</text>
+  </g>
+
+  <path class="arrowRed" d="M560 832 H634"/>
+  <path class="arrowGreen" d="M900 832 H986"/>
+
+  <g id="heal-step">
+    <circle cx="1040" cy="832" r="34" fill="#d1fae5"/>
+    <path d="M1019 834 a23 23 0 0 1 38-17" fill="none" stroke="#059669" stroke-width="6" stroke-linecap="round"/>
+    <path d="M1057 817 v17 h-17" fill="none" stroke="#059669" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M1061 833 a23 23 0 0 1-38 17" fill="none" stroke="#059669" stroke-width="6" stroke-linecap="round"/>
+    <path d="M1023 850 v-17 h17" fill="none" stroke="#059669" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="1106" y="825" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="800" fill="#ffffff">Self-heal</text>
+    <text x="1106" y="853" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#cbd5e1">Excel from backup, JSON from valid neighbor</text>
+  </g>
+
+  <text x="1455" y="842" font-family="Consolas, Courier New, monospace" font-size="18" font-weight="800" fill="#ffffff" text-anchor="end">SHA256(index || time || excel_hash || prev_hash)</text>
+</svg>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import Lenis from "lenis";
 import "./Landing.css";
 
 /* ─── Feature-rotator slide data (matches original HTML) ─── */
@@ -152,6 +153,28 @@ export default function Landing() {
   const [idx, setIdx] = useState(0);
   const timerRef = useRef(null);
   const usRef = useRef(null); // ref on the UnicornStudio container div
+
+  /* ── Initialize Lenis smooth scrolling ── */
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: "vertical",
+      gestureDirection: "vertical",
+      smooth: true,
+      smoothTouch: false,
+      touchMultiplier: 2,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
+  }, []);
 
   /* ── Inject chatbot script ── */
   useEffect(() => {

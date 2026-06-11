@@ -1,7 +1,11 @@
 /* ── Nebula Landing Page Styles ── */
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
+}
+
+body {
+  overflow: hidden;
 }
 
 /* Animated CTA button */

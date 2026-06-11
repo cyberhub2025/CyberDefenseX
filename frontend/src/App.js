@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useLenisScroll } from './hooks/useLenisScroll';
 import Sidebar from './components/Sidebar';
 import Landing from './pages/Landing';
 import GetStarted from './pages/GetStarted';
@@ -63,6 +64,9 @@ function App() {
   });
 
   const API_BASE_URL = process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:8000';
+
+  // Initialize global Lenis smooth scroll
+  useLenisScroll();
 
   useEffect(() => {
     const fetchProfile = async () => {

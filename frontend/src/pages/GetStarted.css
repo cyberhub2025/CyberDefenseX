@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Unbounded:wght@400;600;700&display=swap");
 
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  overflow: hidden;
+}
+
 :root {
   --gs-bg: #07090d;
   --gs-surface: rgba(14, 18, 26, 0.78);
